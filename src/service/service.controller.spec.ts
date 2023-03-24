@@ -8,7 +8,7 @@ describe('ServiceController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ServiceController],
-      providers: [ServiceService],
+      providers: [ServiceService]
     }).compile();
 
     controller = module.get<ServiceController>(ServiceController);
@@ -16,5 +16,13 @@ describe('ServiceController', () => {
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
+  });
+
+  it('should have CRUD operations', () => {
+    expect(controller.create).toBeDefined();
+    expect(controller.findAll).toBeDefined();
+    expect(controller.findOne).toBeDefined();
+    expect(controller.remove).toBeDefined();
+    expect(controller.update).toBeDefined();
   });
 });

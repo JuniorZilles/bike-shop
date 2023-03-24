@@ -8,7 +8,7 @@ describe('BikeController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [BikeController],
-      providers: [BikeService],
+      providers: [BikeService]
     }).compile();
 
     controller = module.get<BikeController>(BikeController);
@@ -16,5 +16,13 @@ describe('BikeController', () => {
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
+  });
+
+  it('should have CRUD operations', () => {
+    expect(controller.create).toBeDefined();
+    expect(controller.findAll).toBeDefined();
+    expect(controller.findOne).toBeDefined();
+    expect(controller.remove).toBeDefined();
+    expect(controller.update).toBeDefined();
   });
 });
