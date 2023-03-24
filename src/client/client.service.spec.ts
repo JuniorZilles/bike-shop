@@ -23,4 +23,14 @@ describe('ClientService', () => {
     expect(service.remove).toBeDefined();
     expect(service.update).toBeDefined();
   });
+
+  it('should insert a client for the provided data', () => {});
+
+  it('when doing a insert a client cannot receive its password', () => {});
+
+  it('when doing a insert a client will receive a id in the returning payload', () => {});
+
+  it('when doing a insert a client will receive same data send in the returning payload', () => {});
+
+  it('when doing a insert a client with same email it will return an error', () => {});
 });
