@@ -22,8 +22,8 @@ async function bootstrap() {
   });
 
   const config = new DocumentBuilder()
-    .setTitle('TODO List API')
-    .setDescription('API for TODO List')
+    .setTitle('Bike Shop API')
+    .setDescription('API for Managing Services by a Bike Shop')
     .setVersion('1.0')
     .addTag('bike')
     .addTag('client')
