@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ApiConflictResponse, ApiCreatedResponse, ApiNotFoundResponse } from '@nestjs/swagger';
 import ClientService from './client.service';
 import CreateClientDto from './dto/create-client.dto';
-import { UpdateClientDto } from './dto/update-client.dto';
+import UpdateClientDto from './dto/update-client.dto';
 
 @Controller('client')
 export default class ClientController {

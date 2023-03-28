@@ -1,6 +1,6 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import CreateClientDto from './dto/create-client.dto';
-import { UpdateClientDto } from './dto/update-client.dto';
+import UpdateClientDto from './dto/update-client.dto';
 import ClientRepository from './repository/implementation/ClientRepository';
 
 @Injectable()
