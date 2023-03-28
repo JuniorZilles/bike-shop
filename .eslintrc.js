@@ -20,6 +20,6 @@ module.exports = {
   },
   ignorePatterns: ['.eslintrc.js'],
   rules: {
-    
+    'class-methods-use-this': 'off'
   }
 }
