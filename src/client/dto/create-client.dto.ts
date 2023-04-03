@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsDate, IsString, IsStrongPassword, IsEmail, IsPhoneNumber } from 'class-validator';
+import { IsNotEmpty, IsString, IsStrongPassword, IsEmail, IsPhoneNumber, IsDateString } from 'class-validator';
 
 export default class CreateClientDto {
   @ApiProperty()
@@ -19,7 +19,7 @@ export default class CreateClientDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  @IsDate()
+  @IsDateString()
   birthday: Date;
 
   @ApiProperty()
