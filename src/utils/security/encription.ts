@@ -1,11 +1,11 @@
-import bcrypt from 'bcrypt';
+import { hash, compare } from 'bcrypt';
 
 export const hashPassword = async (plaintextPassword: string) => {
-  const hash = await bcrypt.hash(plaintextPassword, process.env.PASSWORD_SALT);
-  return hash;
+  const hashPass = await hash(plaintextPassword, Number(process.env.PASSWORD_SALT));
+  return hashPass;
 };
 
-export const comparePassword = async (plaintextPassword: string, hash: string) => {
-  const result = await bcrypt.compare(plaintextPassword, hash);
+export const comparePassword = async (plaintextPassword: string, hashPass: string) => {
+  const result = await compare(plaintextPassword, hashPass);
   return result;
 };
