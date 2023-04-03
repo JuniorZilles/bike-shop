@@ -11,6 +11,7 @@ export default class Client {
   clientId: string;
 
   @ApiProperty()
+  @Column()
   email: string;
 
   @Column({
