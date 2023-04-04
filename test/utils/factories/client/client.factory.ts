@@ -13,3 +13,14 @@ export const invalidClient = {
   birthday: '1994-11-14',
   phone: '+55 12 94866-2978'
 };
+
+export const updateValidClient = {
+  name: 'John Doe',
+  birthday: '1994-11-14',
+  phone: '+55 12 94866-2977'
+};
+
+export const updateInvalidClient = {
+  name: 'John Doe',
+  birthday: '1994-1114'
+};

@@ -31,10 +31,9 @@ export default class ClientService {
 
   async update(id: string, updateClientDto: UpdateClientDto) {
     const client = await this.clientRepository.update(id, updateClientDto);
-    if (!client) {
+    if (!client || client === 0) {
       throw new NotFoundException('Client Not Found');
     }
-    return client;
   }
 
   remove(id: string) {

@@ -127,19 +127,7 @@ describe('ClientService', () => {
   describe('Update', () => {
     it('should update a client for the provided data', async () => {
       const insertedClient = await service.create(createClientDto);
-      const client = await service.update(insertedClient.clientId, updateClientDto);
-      expect(client).toBeDefined();
-    });
-
-    it('should return the new data alongside the not update without password', async () => {
-      const insertedClient = await service.create(createClientDto);
-      const client = await service.update(insertedClient.clientId, updateClientDto);
-      expect(client).not.toHaveProperty('password');
-      expect(client.name).toBe(updateClientDto.name);
-      expect(client.birthday).toBe(updateClientDto.birthday);
-      expect(client.phone).toBe(updateClientDto.phone);
-      expect(client.clientId).toBe(insertedClient.clientId);
-      expect(client.email).toBe(createClientDto.email);
+      await service.update(insertedClient.clientId, updateClientDto);
     });
 
     it('should generate an error if the passed clientId is not present in DB', async () => {

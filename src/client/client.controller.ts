@@ -13,6 +13,7 @@ import { ApiConflictResponse, ApiCreatedResponse, ApiNotFoundResponse } from '@n
 import ClientService from './client.service';
 import CreateClientDto from './dto/create-client.dto';
 import UpdateClientDto from './dto/update-client.dto';
+import successResponse from '../utils/response/success';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('client')
@@ -39,8 +40,9 @@ export default class ClientController {
 
   @Patch(':id')
   @ApiNotFoundResponse()
-  update(@Param('id') id: string, @Body() updateClientDto: UpdateClientDto) {
-    return this.clientService.update(id, updateClientDto);
+  async update(@Param('id') id: string, @Body() updateClientDto: UpdateClientDto) {
+    await this.clientService.update(id, updateClientDto);
+    return successResponse;
   }
 
   @Delete(':id')

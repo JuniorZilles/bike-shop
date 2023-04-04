@@ -6,5 +6,5 @@ import Client from '../entities/client.entity';
 export default interface IClientRepository {
   create(client: CreateClientDto): Promise<Client>;
   findOne(where: IWhereFind): Promise<Client>;
-  update(id: string, clientPartial: UpdateClientDto): Promise<Client>;
+  update(id: string, clientPartial: UpdateClientDto): Promise<number>;
 }

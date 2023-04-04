@@ -13,9 +13,9 @@ export default class ClientRepository implements IClientRepository {
     this.repository = repository;
   }
 
-  async update(id: string, clientPartial: UpdateClientDto): Promise<Client> {
+  async update(id: string, clientPartial: UpdateClientDto): Promise<number> {
     const client = await this.repository.update(id, clientPartial);
-    return client.raw;
+    return client.affected;
   }
 
   async create(client: CreateClientDto): Promise<Client> {
