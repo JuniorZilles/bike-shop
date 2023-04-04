@@ -34,18 +34,18 @@ export default class ClientController {
   @Get(':id')
   @ApiNotFoundResponse()
   findOne(@Param('id') id: string) {
-    return this.clientService.findOne(+id);
+    return this.clientService.findOne(id);
   }
 
   @Patch(':id')
   @ApiNotFoundResponse()
   update(@Param('id') id: string, @Body() updateClientDto: UpdateClientDto) {
-    return this.clientService.update(+id, updateClientDto);
+    return this.clientService.update(id, updateClientDto);
   }
 
   @Delete(':id')
   @ApiNotFoundResponse()
   remove(@Param('id') id: string) {
-    return this.clientService.remove(+id);
+    return this.clientService.remove(id);
   }
 }

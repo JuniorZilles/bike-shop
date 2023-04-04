@@ -1,4 +1,4 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import CreateClientDto from './dto/create-client.dto';
 import UpdateClientDto from './dto/update-client.dto';
 import ClientRepository from './repository/implementation/ClientRepository';
@@ -25,15 +25,19 @@ export default class ClientService {
     return `This action returns all client`;
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} client`;
   }
 
-  update(id: number, updateClientDto: UpdateClientDto) {
-    return `This action updates a #${id} client`;
+  async update(id: string, updateClientDto: UpdateClientDto) {
+    const client = await this.clientRepository.update(id, updateClientDto);
+    if (!client) {
+      throw new NotFoundException('Client Not Found');
+    }
+    return client;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} client`;
   }
 }
