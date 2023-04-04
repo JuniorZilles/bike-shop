@@ -9,7 +9,7 @@ import { Store } from '../store/entities/store.entity';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true, envFilePath: process.env.NODE_ENV === 'test' ? ['.env.test'] : ['.env'] }),
+    ConfigModule.forRoot({ envFilePath: process.env.NODE_ENV === 'test' ? ['.env.test'] : ['.env'] }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.TYPEORM_HOST,

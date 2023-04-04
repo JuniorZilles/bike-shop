@@ -1,11 +1,12 @@
-import { hashPassword } from '../security/encription';
+import { EncryptionTransformer } from 'typeorm-encrypted';
+import { ConfigModule } from '@nestjs/config';
 
-export default {
-  async to(value) {
-    const hashedPass = await hashPassword(value);
-    return hashedPass;
-  },
-  from(value) {
-    return value;
-  }
-};
+ConfigModule.forRoot({ envFilePath: process.env.NODE_ENV === 'test' ? ['.env.test'] : ['.env'] });
+
+const PasswordTransformer = new EncryptionTransformer({
+  key: process.env.TYPEORM_TRANSFORMER_KEY,
+  algorithm: 'aes-256-cbc',
+  ivLength: 16,
+  iv: process.env.TYPEORM_TRANSFORMER_IV
+});
+export default PasswordTransformer;

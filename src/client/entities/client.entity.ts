@@ -1,8 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { randomUUID } from 'crypto';
 import { Column, CreateDateColumn, Entity, UpdateDateColumn } from 'typeorm';
+import { Exclude } from 'class-transformer';
 import { PrimaryColumn } from 'typeorm/decorator/columns/PrimaryColumn';
-import passwordTransformer from '../../utils/typeorm/password.transformer';
+import PasswordTransformer from '../../utils/typeorm/password.transformer';
 
 @Entity('client')
 export default class Client {
@@ -15,9 +16,10 @@ export default class Client {
   email: string;
 
   @Column({
-    transformer: passwordTransformer,
+    transformer: PasswordTransformer,
     select: false
   })
+  @Exclude()
   password: string;
 
   @ApiProperty()
@@ -41,4 +43,8 @@ export default class Client {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  constructor(partial: Partial<Client>) {
+    Object.assign(this, partial);
+  }
 }
