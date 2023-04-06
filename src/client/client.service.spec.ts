@@ -30,13 +30,13 @@ describe('ClientService', () => {
   const clientRepositoryMock: () => MockType<Repository<Client>> = jest.fn(() => ({
     create: jest.fn((entity) => ({
       ...entity,
-      id: randomUUID(),
+      clientId: randomUUID(),
       createdDate: new Date(),
       updatedDate: new Date(),
       isActive: true
     })),
     findOne: jest.fn(({ where }) => {
-      const client = clients.find((item) => item.clientId === where.id || item.email === where.email);
+      const client = clients.find((item) => item.clientId === where.clientId || item.email === where.email);
       return client;
     }),
     find: jest.fn((entity) => entity),
@@ -47,8 +47,9 @@ describe('ClientService', () => {
       return rest;
     }),
     update: jest.fn((id, entity) => {
-      const client = clients.find((item) => item.clientId === id);
-      return { raw: { ...client, ...entity } };
+      const index = clients.findIndex((item) => item.clientId === id);
+      clients[index] = { ...clients[index], ...entity };
+      return { affected: index !== -1 ? 1 : 0 };
     })
   }));
 
@@ -95,7 +96,7 @@ describe('ClientService', () => {
     it('when doing a insert a client will receive a id in the returning payload', async () => {
       const client = await service.create(createClientDto);
       expect(client).toBeDefined();
-      expect(client).toHaveProperty('id');
+      expect(client).toHaveProperty('clientId');
       expect(client).toHaveProperty('email');
       expect(client).toHaveProperty('name');
       expect(client).toHaveProperty('birthday');
@@ -140,6 +141,42 @@ describe('ClientService', () => {
       }
     });
   });
-  describe('Find', () => {});
+  describe('Find', () => {
+    let insertedClient: Client;
+    beforeEach(async () => {
+      insertedClient = await service.create(createClientDto);
+    });
+
+    it('should find a client with its clientId and be defined', async () => {
+      const client = await service.findOne(insertedClient.clientId);
+      expect(client).toBeDefined();
+    });
+
+    it('should find a client with its clientId and return its data', async () => {
+      const client = await service.findOne(insertedClient.clientId);
+      expect(client.clientId).toBe(insertedClient.clientId);
+      expect(client.email).toBe(insertedClient.email);
+      expect(client.name).toBe(insertedClient.name);
+      expect(client.birthday).toBe(insertedClient.birthday);
+      expect(client.phone).toBe(insertedClient.phone);
+      expect(client.isActive).toBe(insertedClient.isActive);
+    });
+
+    it('should find a client with its clientId and not return the password', async () => {
+      const client = await service.findOne(insertedClient.clientId);
+      expect(client).toBeDefined();
+      expect(client).not.toHaveProperty('password');
+    });
+
+    it('should generate an error if the passed clientId is not present in DB', async () => {
+      try {
+        await service.findOne('feb933a0-bb89-4d2d-a83d-a7ff83cd6334');
+      } catch (e) {
+        expect(e).toBeInstanceOf(NotFoundException);
+        expect(e.status).toBe(404);
+        expect(e.message).toBe('Client Not Found');
+      }
+    });
+  });
   describe('Find All', () => {});
 });

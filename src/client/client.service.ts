@@ -9,29 +9,35 @@ export default class ClientService {
 
   async create(createClientDto: CreateClientDto) {
     const { email } = createClientDto;
-    await this.findByEmail(email);
-    const client = await this.clientRepository.create(createClientDto);
+    const response = await this.findByEmail(email);
+    if (response?.isActive) {
+      throw new ConflictException('Email already in use');
+    }
+    const client = await this.clientRepository.create({ ...createClientDto, isActive: true });
+
     return client;
   }
 
   private async findByEmail(email: string) {
     const response = await this.clientRepository.findOne({ where: { email } });
-    if (response) {
-      throw new ConflictException('Email already in use');
-    }
+    return response;
   }
 
   findAll() {
     return `This action returns all client`;
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} client`;
+  async findOne(clientId: string) {
+    const response = await this.clientRepository.findOne({ where: { clientId } });
+    if (!response) {
+      throw new NotFoundException('Client Not Found');
+    }
+    return response;
   }
 
   async update(id: string, updateClientDto: UpdateClientDto) {
-    const client = await this.clientRepository.update(id, updateClientDto);
-    if (!client || client === 0) {
+    const response = await this.clientRepository.update(id, updateClientDto);
+    if (!response || response === 0) {
       throw new NotFoundException('Client Not Found');
     }
   }

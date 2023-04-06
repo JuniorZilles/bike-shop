@@ -26,4 +26,6 @@ export default class CreateClientDto {
   @IsNotEmpty()
   @IsPhoneNumber()
   phone: string;
+
+  isActive?: boolean;
 }
