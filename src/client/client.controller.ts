@@ -7,13 +7,15 @@ import {
   Param,
   Delete,
   UseInterceptors,
-  ClassSerializerInterceptor
+  ClassSerializerInterceptor,
+  Query
 } from '@nestjs/common';
 import { ApiConflictResponse, ApiCreatedResponse, ApiNotFoundResponse } from '@nestjs/swagger';
 import ClientService from './client.service';
 import CreateClientDto from './dto/create-client.dto';
 import UpdateClientDto from './dto/update-client.dto';
 import successResponse from '../utils/response/success';
+import IQueryDTO from './dto/query.dto';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('client')
@@ -28,8 +30,8 @@ export default class ClientController {
   }
 
   @Get()
-  findAll() {
-    return this.clientService.findAll();
+  findAll(@Query() payload: IQueryDTO) {
+    return this.clientService.findAll(payload);
   }
 
   @Get(':id')
@@ -48,6 +50,6 @@ export default class ClientController {
   @Delete(':id')
   @ApiNotFoundResponse()
   remove(@Param('id') id: string) {
-    return this.clientService.remove(id);
+    return this.clientService.update(id, { isActive: false });
   }
 }

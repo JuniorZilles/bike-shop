@@ -39,6 +39,18 @@ describe('ClientService', () => {
       const client = clients.find((item) => item.clientId === where.clientId || item.email === where.email);
       return client;
     }),
+    findAndCount: jest.fn(({ where }) => {
+      if (Object.keys(where).length > 1) {
+        const client = clients.filter(
+          (item) =>
+            item.isActive === where.isActive &&
+            (item.name.includes(where.name?.value?.replace(/%/g, '')) ||
+              item.phone.includes(where.phone?.value?.replace(/%/g, '')))
+        );
+        return [client, client.length];
+      }
+      return [clients, clients.length];
+    }),
     find: jest.fn((entity) => entity),
     remove: jest.fn((entity) => entity),
     save: jest.fn((entity) => {
@@ -77,7 +89,6 @@ describe('ClientService', () => {
     expect(service.create).toBeDefined();
     expect(service.findAll).toBeDefined();
     expect(service.findOne).toBeDefined();
-    expect(service.remove).toBeDefined();
     expect(service.update).toBeDefined();
   });
 
@@ -178,5 +189,33 @@ describe('ClientService', () => {
       }
     });
   });
-  describe('Find All', () => {});
+  describe('Find All', () => {
+    beforeEach(async () => {
+      await service.create(createClientDto);
+    });
+
+    it('should find all clients', async () => {
+      const client = await service.findAll({});
+      expect(client).toBeDefined();
+      expect(client.items.length).toEqual(1);
+    });
+
+    it('should not find clients when searching by name Maria', async () => {
+      const client = await service.findAll({ name: 'Maria' });
+      expect(client).toBeDefined();
+      expect(client.items.length).toEqual(0);
+    });
+
+    it('should find clients when searching by name John', async () => {
+      const client = await service.findAll({ name: 'John' });
+      expect(client).toBeDefined();
+      expect(client.items.length).toEqual(1);
+    });
+
+    it('should find clients when searching by phone', async () => {
+      const client = await service.findAll({ phone: '94' });
+      expect(client).toBeDefined();
+      expect(client.items.length).toEqual(1);
+    });
+  });
 });

@@ -2,6 +2,7 @@ import { ConflictException, Injectable, NotFoundException } from '@nestjs/common
 import CreateClientDto from './dto/create-client.dto';
 import UpdateClientDto from './dto/update-client.dto';
 import ClientRepository from './repository/implementation/ClientRepository';
+import IQueryDTO from './dto/query.dto';
 
 @Injectable()
 export default class ClientService {
@@ -23,8 +24,10 @@ export default class ClientService {
     return response;
   }
 
-  findAll() {
-    return `This action returns all client`;
+  async findAll(query?: IQueryDTO) {
+    const { limit, offset, ...where } = query;
+    const response = await this.clientRepository.findAll({ limit, offset, where });
+    return { totalResults: response[1], items: response[0], limit: query.limit, offset: query.offset };
   }
 
   async findOne(clientId: string) {
@@ -40,9 +43,5 @@ export default class ClientService {
     if (!response || response === 0) {
       throw new NotFoundException('Client Not Found');
     }
-  }
-
-  remove(id: string) {
-    return `This action removes a #${id} client`;
   }
 }

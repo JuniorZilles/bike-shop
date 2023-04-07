@@ -16,4 +16,6 @@ export default class UpdateClientDto {
   @IsOptional()
   @IsPhoneNumber()
   phone?: string;
+
+  isActive?: boolean;
 }
