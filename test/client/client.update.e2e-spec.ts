@@ -27,7 +27,7 @@ describe('Client UPDATE (e2e)', () => {
 
     await app.init();
 
-    const result = await request(app.getHttpServer()).post('/client').send(validClient);
+    const result = await request(app.getHttpServer()).post('/client').send(validClient());
     body = result.body;
   });
 
@@ -36,26 +36,26 @@ describe('Client UPDATE (e2e)', () => {
   });
 
   it('/client (PATCH) with valid data should return status 200', async () => {
-    const result = await request(app.getHttpServer()).patch(`/client/${body.clientId}`).send(updateValidClient);
+    const result = await request(app.getHttpServer()).patch(`/client/${body.clientId}`).send(updateValidClient());
     expect(result.status).toBe(200);
   });
 
   it('/client (PATCH) with valid data should return success', async () => {
-    const result = await request(app.getHttpServer()).patch(`/client/${body.clientId}`).send(updateValidClient);
+    const result = await request(app.getHttpServer()).patch(`/client/${body.clientId}`).send(updateValidClient());
     expect(result.body.status).toBe('success');
   });
 
   it('/client (PATCH) with non existing id should return status 404', async () => {
     const result = await request(app.getHttpServer())
       .patch('/client/feb933a0-bb89-4d2d-a83d-a7ff83cd6334')
-      .send(updateValidClient);
+      .send(updateValidClient());
     expect(result.status).toBe(404);
   });
 
   it('/client (PATCH) ith non existing id should return an error', async () => {
     const result = await request(app.getHttpServer())
       .patch('/client/feb933a0-bb89-4d2d-a83d-a7ff83cd6334')
-      .send(updateValidClient);
+      .send(updateValidClient());
     expect(result.body.error).toBe('Not Found');
     expect(result.body.statusCode).toBe(404);
     expect(result.body.message).toBe('Client Not Found');
