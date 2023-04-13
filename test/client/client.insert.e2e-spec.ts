@@ -5,7 +5,7 @@ import ClientModule from '../../src/client/client.module';
 import { invalidClient, validClient } from '../utils/factories/client/client.factory';
 import DatabaseModule from '../../src/database/database.module';
 
-describe('Client (e2e)', () => {
+describe('Client INSERT (e2e)', () => {
   let app: INestApplication;
 
   beforeEach(async () => {

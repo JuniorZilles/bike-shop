@@ -6,7 +6,7 @@ import { updateInvalidClient, updateValidClient, validClient } from '../utils/fa
 import DatabaseModule from '../../src/database/database.module';
 import Client from '../../src/client/entities/client.entity';
 
-describe('Client (e2e)', () => {
+describe('Client UPDATE (e2e)', () => {
   let app: INestApplication;
   let body: Client;
 
