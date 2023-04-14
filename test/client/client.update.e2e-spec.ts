@@ -72,4 +72,16 @@ describe('Client UPDATE (e2e)', () => {
     expect(result.body.statusCode).toBe(400);
     expect(result.body.message).toEqual(['birthday must be a valid ISO 8601 date string']);
   });
+
+  it('/client (PATCH) with invalid ID should return status 400', async () => {
+    const result = await request(app.getHttpServer()).patch('/client/1519748dsa4a').send(updateValidClient());
+    expect(result.status).toBe(400);
+  });
+
+  it('/client (PATCH) with invalid ID should return validation error', async () => {
+    const result = await request(app.getHttpServer()).patch('/client/1519748dsa4a').send(updateValidClient());
+    expect(result.body.error).toBe('Bad Request');
+    expect(result.body.statusCode).toBe(400);
+    expect(result.body.message).toEqual('Validation failed (uuid is expected)');
+  });
 });
