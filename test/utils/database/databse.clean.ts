@@ -18,7 +18,7 @@ export default async (): Promise<void> => {
     database: process.env.TYPEORM_DATABASE,
     entities: [Client, Bike, Feedback, Service, Store],
     schema: process.env.TYPEORM_SCHEMA,
-    synchronize: Boolean(process.env.TYPEORM_SINCRONIZE || 'false'),
+    synchronize: process.env.TYPEORM_SINCRONIZE === 'true',
     migrations: [process.env.TYPEORM_MIGRATIONS],
     logging: false
   }).initialize();

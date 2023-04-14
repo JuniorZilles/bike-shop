@@ -19,9 +19,9 @@ import { Store } from '../store/entities/store.entity';
       database: process.env.TYPEORM_DATABASE,
       entities: [Bike, Client, Feedback, Service, Store],
       schema: process.env.TYPEORM_SCHEMA,
-      synchronize: Boolean(process.env.TYPEORM_SINCRONIZE || 'false'),
+      synchronize: process.env.TYPEORM_SINCRONIZE === 'true',
       migrations: [process.env.TYPEORM_MIGRATIONS],
-      logging: Boolean(process.env.TYPEORM_LOGGING || 'false')
+      logging: process.env.TYPEORM_LOGGING === 'true'
     })
   ]
 })
