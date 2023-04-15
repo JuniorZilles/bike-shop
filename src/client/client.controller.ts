@@ -9,9 +9,10 @@ import {
   UseInterceptors,
   ClassSerializerInterceptor,
   Query,
-  ParseUUIDPipe
+  ParseUUIDPipe,
+  HttpCode
 } from '@nestjs/common';
-import { ApiConflictResponse, ApiCreatedResponse, ApiNotFoundResponse } from '@nestjs/swagger';
+import { ApiConflictResponse, ApiCreatedResponse, ApiNoContentResponse, ApiNotFoundResponse } from '@nestjs/swagger';
 import ClientService from './client.service';
 import CreateClientDto from './dto/create-client.dto';
 import UpdateClientDto from './dto/update-client.dto';
@@ -49,8 +50,10 @@ export default class ClientController {
   }
 
   @Delete(':id')
+  @HttpCode(204)
   @ApiNotFoundResponse()
-  remove(@Param('id', ParseUUIDPipe) id: string) {
-    return this.clientService.update(id, { isActive: false });
+  @ApiNoContentResponse()
+  async remove(@Param('id', ParseUUIDPipe) id: string) {
+    await this.clientService.update(id, { isActive: false });
   }
 }
