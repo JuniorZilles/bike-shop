@@ -37,7 +37,7 @@ describe('Client GET (e2e)', () => {
   });
 
   it('/client (GET) with valid ID should return status 200', async () => {
-    const result = await request(app.getHttpServer()).get(`/client/${body.clientId}`).send(clientData);
+    const result = await request(app.getHttpServer()).get(`/client/${body.clientId}`);
     expect(result.status).toBe(200);
   });
 
