@@ -1,6 +1,6 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOperator, ILike, Repository } from 'typeorm';
-import ISearchClientDTO from '../../dto/search.dto';
+import { ISearchClientDTO } from '../../dto/search.dto';
 import CreateClientDto from '../../dto/create-client.dto';
 import Client from '../../entities/client.entity';
 import IClientRepository from '../IClientRepository';
