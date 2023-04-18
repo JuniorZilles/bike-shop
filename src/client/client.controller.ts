@@ -12,7 +12,13 @@ import {
   ParseUUIDPipe,
   HttpCode
 } from '@nestjs/common';
-import { ApiConflictResponse, ApiCreatedResponse, ApiNoContentResponse, ApiNotFoundResponse } from '@nestjs/swagger';
+import {
+  ApiConflictResponse,
+  ApiCreatedResponse,
+  ApiNoContentResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse
+} from '@nestjs/swagger';
 import ClientService from './client.service';
 import CreateClientDto from './dto/create-client.dto';
 import UpdateClientDto from './dto/update-client.dto';
@@ -32,6 +38,7 @@ export default class ClientController {
   }
 
   @Get()
+  @ApiOkResponse()
   findAll(@Query() payload: IQueryDTO) {
     return this.clientService.findAll(payload);
   }
