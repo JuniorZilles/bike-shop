@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { randomUUID } from 'crypto';
 import { Column, CreateDateColumn, Entity, UpdateDateColumn } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { PrimaryColumn } from 'typeorm/decorator/columns/PrimaryColumn';
@@ -8,7 +7,7 @@ import PasswordTransformer from '../../utils/typeorm/password.transformer';
 @Entity('client')
 export default class Client {
   @ApiProperty()
-  @PrimaryColumn({ default: randomUUID() })
+  @PrimaryColumn({ generated: 'uuid' })
   clientId: string;
 
   @ApiProperty()
