@@ -31,8 +31,8 @@ describe('ClientService', () => {
     create: jest.fn((entity) => ({
       ...entity,
       clientId: randomUUID(),
-      createdDate: new Date(),
-      updatedDate: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       isActive: true
     })),
     findOne: jest.fn(({ where }) => {
