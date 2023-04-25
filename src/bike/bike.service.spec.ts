@@ -32,7 +32,7 @@ describe('BikeService', () => {
 
   const createBikeDto: CreateBikeDto = {
     displayName: 'HDS 2021',
-    brand: 'Oggi',
+    brand: 'OGGI',
     clientId: generatedClientId,
     color: 'Red',
     nr: '12456798',
@@ -41,7 +41,7 @@ describe('BikeService', () => {
 
   const updateBikeDto: UpdateBikeDto = {
     displayName: 'HDS 2022',
-    brand: 'Oggi',
+    brand: 'OGGI',
     clientId: generatedClientId,
     color: 'Red',
     nr: '129872798',
@@ -68,9 +68,17 @@ describe('BikeService', () => {
       return bike;
     }),
     findAndCount: jest.fn(({ where }) => {
-      if (Object.keys(where).length > 1) {
-        const client = bikes.filter((item) => item.isActive === where.isActive);
-        return [client, client.length];
+      const keys = Object.keys(where);
+      if (keys.length > 1) {
+        const bike = bikes.filter(
+          (item) =>
+            item.isActive === where.isActive &&
+            (item.brand.includes(where.brand?.value?.replace(/%/g, '')) ||
+              item.color.includes(where.color?.value?.replace(/%/g, '')) ||
+              item.clientId.includes(where.clientId?.value?.replace(/%/g, '')) ||
+              item.displayName.includes(where.displayName?.value?.replace(/%/g, '')))
+        );
+        return [bike, bike.length];
       }
       return [bikes, bikes.length];
     }),
@@ -88,6 +96,7 @@ describe('BikeService', () => {
   }));
 
   beforeEach(async () => {
+    bikes = [];
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         {
@@ -218,5 +227,39 @@ describe('BikeService', () => {
     });
   });
 
-  describe('Find all', () => {});
+  describe('Find all', () => {
+    beforeEach(async () => {
+      await service.create(createBikeDto);
+    });
+
+    it('should find all bikes', async () => {
+      const client = await service.findAll({});
+      expect(client).toBeDefined();
+      expect(client.items.length).toEqual(1);
+    });
+
+    it('should find bikes when searching by displayName HDS', async () => {
+      const client = await service.findAll({ displayName: 'HDS' });
+      expect(client).toBeDefined();
+      expect(client.items.length).toEqual(1);
+    });
+
+    it(`should find bikes when searching by clientId ${generatedClientId}`, async () => {
+      const client = await service.findAll({ clientId: generatedClientId });
+      expect(client).toBeDefined();
+      expect(client.items.length).toEqual(1);
+    });
+
+    it('should find bikes when searching by brand', async () => {
+      const client = await service.findAll({ brand: 'OGGI' });
+      expect(client).toBeDefined();
+      expect(client.items.length).toEqual(1);
+    });
+
+    it('should not find bikes when searching by brand that isnt registered', async () => {
+      const client = await service.findAll({ brand: 'GTS' });
+      expect(client).toBeDefined();
+      expect(client.items.length).toEqual(0);
+    });
+  });
 });

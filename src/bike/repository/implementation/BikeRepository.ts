@@ -1,4 +1,4 @@
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import IBikeRepository from '../IBikeRepository';
 import Bike from '../../entities/bike.entity';
@@ -22,7 +22,19 @@ export default class BikeRepository implements IBikeRepository {
     return this.repository.findOne(where);
   }
 
-  //findAll(options: ISearchBikeDTO): Promise<[Bike[], number]> {}
+  findAll(options: ISearchBikeDTO = { limit: 20, offset: 0 }): Promise<[Bike[], number]> {
+    const { where, offset: skip, limit: take } = options;
+
+    Object.keys(where).forEach((key) => {
+      if (key !== 'rimSize') {
+        where[key] = ILike(`%${where[key]}%`);
+      }
+    });
+
+    where.isActive = true;
+
+    return this.repository.findAndCount({ skip, take, where });
+  }
 
   async update(id: string, bikePartial: UpdateBikeDto): Promise<number> {
     const { clientId, ...payload } = bikePartial;
