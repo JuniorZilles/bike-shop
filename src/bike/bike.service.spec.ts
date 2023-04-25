@@ -184,7 +184,39 @@ describe('BikeService', () => {
     });
   });
 
-  describe('Find by Id', () => {});
+  describe('Find by Id', () => {
+    let insertedBike: Bike;
+    beforeEach(async () => {
+      insertedBike = await service.create(createBikeDto);
+    });
+
+    it('should find a client with its bikeId and be defined', async () => {
+      const bike = await service.findOne(insertedBike.bikeId);
+      expect(bike).toBeDefined();
+    });
+
+    it('should find a client with its bikeId and return its data', async () => {
+      const bike = await service.findOne(insertedBike.bikeId);
+      expect(bike.clientId).toBe(insertedBike.clientId);
+      expect(bike.bikeId).toBe(insertedBike.bikeId);
+      expect(bike.brand).toBe(insertedBike.brand);
+      expect(bike.color).toBe(insertedBike.color);
+      expect(bike.displayName).toBe(insertedBike.displayName);
+      expect(bike.isActive).toBe(insertedBike.isActive);
+      expect(bike.rimSize).toBe(insertedBike.rimSize);
+      expect(bike.nr).toBe(insertedBike.nr);
+    });
+
+    it('should generate an error if the passed clientId is not present in DB', async () => {
+      try {
+        await service.findOne('feb933a0-bb89-4d2d-a83d-a7ff83cd6334');
+      } catch (e) {
+        expect(e).toBeInstanceOf(NotFoundException);
+        expect(e.status).toBe(404);
+        expect(e.message).toBe('Bike Not Found');
+      }
+    });
+  });
 
   describe('Find all', () => {});
 });

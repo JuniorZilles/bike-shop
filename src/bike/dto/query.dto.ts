@@ -6,5 +6,5 @@ export default class IQueryDTO extends Pagination {
   @ApiProperty()
   @IsOptional()
   @IsString()
-  clientId?: string;
+  bikeId?: string;
 }

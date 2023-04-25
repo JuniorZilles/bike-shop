@@ -23,8 +23,12 @@ export default class BikeService {
     return `This action returns all bike`;
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} bike`;
+  async findOne(bikeId: string) {
+    const response = await this.bikeRepository.findOne({ where: { bikeId } });
+    if (!response) {
+      throw new NotFoundException('Bike Not Found');
+    }
+    return response;
   }
 
   async update(id: string, updateBikeDto: UpdateBikeDto) {
