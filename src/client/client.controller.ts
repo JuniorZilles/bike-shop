@@ -44,12 +44,14 @@ export default class ClientController {
   }
 
   @Get(':id')
+  @ApiOkResponse()
   @ApiNotFoundResponse()
   findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.clientService.findOne(id);
   }
 
   @Patch(':id')
+  @ApiOkResponse()
   @ApiNotFoundResponse()
   async update(@Param('id', ParseUUIDPipe) id: string, @Body() updateClientDto: UpdateClientDto) {
     await this.clientService.update(id, updateClientDto);

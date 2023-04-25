@@ -1,4 +1,4 @@
-import ISearchClientDTO from 'src/client/dto/search.dto';
+import { ISearchClientDTO } from '../dto/search.dto';
 import CreateClientDto from '../dto/create-client.dto';
 import UpdateClientDto from '../dto/update-client.dto';
 import Client from '../entities/client.entity';
