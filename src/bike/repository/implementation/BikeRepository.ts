@@ -20,5 +20,10 @@ export default class BikeRepository implements IBikeRepository {
 
   //findOne(where: ISearchBikeDTO): Promise<Bike> {}
   //findAll(options: ISearchBikeDTO): Promise<[Bike[], number]> {}
-  //update(id: string, bikePartial: UpdateBikeDto): Promise<number> {}
+
+  async update(id: string, bikePartial: UpdateBikeDto): Promise<number> {
+    const { clientId, ...payload } = bikePartial;
+    const client = await this.repository.update({ bikeId: id, clientId }, payload);
+    return client.affected;
+  }
 }

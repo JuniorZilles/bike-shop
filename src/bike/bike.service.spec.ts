@@ -10,11 +10,12 @@ import ClientRepository from '../client/repository/implementation/ClientReposito
 import Bike from './entities/bike.entity';
 import CreateBikeDto from './dto/create-bike.dto';
 import BikeRepository from './repository/implementation/BikeRepository';
+import UpdateBikeDto from './dto/update-bike.dto';
 
 describe('BikeService', () => {
   let service: BikeService;
   let bikes: Bike[] = [];
-  const clientId = randomUUID();
+  const generatedClientId = randomUUID();
   const clients: Client[] = [
     {
       email: 'john.doe@mail.com',
@@ -22,7 +23,7 @@ describe('BikeService', () => {
       name: 'John Doe',
       birthday: new Date('1994-11-14'),
       phone: '+55 12 94866-2978',
-      clientId,
+      clientId: generatedClientId,
       createdAt: new Date(),
       updatedAt: new Date(),
       isActive: true
@@ -32,9 +33,18 @@ describe('BikeService', () => {
   const createBikeDto: CreateBikeDto = {
     displayName: 'HDS 2021',
     brand: 'Oggi',
-    clientId,
+    clientId: generatedClientId,
     color: 'Red',
     nr: '12456798',
+    rimSize: 29
+  };
+
+  const updateBikeDto: UpdateBikeDto = {
+    displayName: 'HDS 2022',
+    brand: 'Oggi',
+    clientId: generatedClientId,
+    color: 'Red',
+    nr: '129872798',
     rimSize: 29
   };
 
@@ -70,8 +80,8 @@ describe('BikeService', () => {
       bikes.push(entity);
       return entity;
     }),
-    update: jest.fn((id, entity) => {
-      const index = bikes.findIndex((item) => item.bikeId === id);
+    update: jest.fn(({ bikeId, clientId }, entity) => {
+      const index = bikes.findIndex((item) => item.bikeId === bikeId && item.clientId === clientId);
       bikes[index] = { ...bikes[index], ...entity };
       return { affected: index !== -1 ? 1 : 0 };
     })
@@ -105,7 +115,6 @@ describe('BikeService', () => {
     expect(service.create).toBeDefined();
     expect(service.findAll).toBeDefined();
     expect(service.findOne).toBeDefined();
-    expect(service.remove).toBeDefined();
     expect(service.update).toBeDefined();
   });
 
@@ -143,4 +152,39 @@ describe('BikeService', () => {
       expect(bike.isActive).toBe(true);
     });
   });
+
+  describe('Update', () => {
+    it('should update a client for the provided data', async () => {
+      const insertedBike = await service.create(createBikeDto);
+      await service.update(insertedBike.bikeId, updateBikeDto);
+    });
+
+    it('should generate an error if the passed bikeId is not present in DB', async () => {
+      try {
+        await service.update('feb933a0-bb89-4d2d-a83d-a7ff83cd6334', updateBikeDto);
+      } catch (e) {
+        expect(e).toBeInstanceOf(NotFoundException);
+        expect(e.status).toBe(404);
+        expect(e.message).toBe('Bike or User Not Found');
+      }
+    });
+
+    it('should generate an error if the passed clientId is not related to the updated bike in DB', async () => {
+      const insertedBike = await service.create(createBikeDto);
+      try {
+        await service.update(insertedBike.bikeId, {
+          ...updateBikeDto,
+          clientId: 'feb933a0-bb89-4d2d-a83d-a7ff83cd6334'
+        });
+      } catch (e) {
+        expect(e).toBeInstanceOf(NotFoundException);
+        expect(e.status).toBe(404);
+        expect(e.message).toBe('Bike or User Not Found');
+      }
+    });
+  });
+
+  describe('Find by Id', () => {});
+
+  describe('Find all', () => {});
 });

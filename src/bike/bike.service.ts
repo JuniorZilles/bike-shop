@@ -27,11 +27,10 @@ export default class BikeService {
     return `This action returns a #${id} bike`;
   }
 
-  update(id: string, updateBikeDto: UpdateBikeDto) {
-    return `This action updates a #${id} bike`;
-  }
-
-  remove(id: string) {
-    return `This action removes a #${id} bike`;
+  async update(id: string, updateBikeDto: UpdateBikeDto) {
+    const response = await this.bikeRepository.update(id, updateBikeDto);
+    if (!response || response === 0) {
+      throw new NotFoundException('Bike or User Not Found');
+    }
   }
 }
