@@ -5,7 +5,7 @@ import Bike from '../entities/bike.entity';
 
 export default interface IBikeRepository {
   create(Bike: CreateBikeDto): Promise<Bike>;
-  //findOne(where: ISearchBikeDTO): Promise<Bike>;
-  //findAll(options: ISearchBikeDTO): Promise<[Bike[], number]>;
-  //update(id: string, BikePartial: UpdateBikeDto): Promise<number>;
+  findOne(where: ISearchBikeDTO): Promise<Bike>;
+  findAll(options: ISearchBikeDTO): Promise<[Bike[], number]>;
+  update(id: string, BikePartial: UpdateBikeDto): Promise<number>;
 }
