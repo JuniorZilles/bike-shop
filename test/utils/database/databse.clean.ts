@@ -1,6 +1,6 @@
 import { DataSource } from 'typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { Bike } from '../../../src/client/bike/entities/bike.entity';
+import Bike from '../../../src/bike/entities/bike.entity';
 import Client from '../../../src/client/entities/client.entity';
 import { Feedback } from '../../../src/feedback/entities/feedback.entity';
 import { Service } from '../../../src/service/entities/service.entity';
@@ -25,5 +25,8 @@ export default async (): Promise<void> => {
 
   const clientRepository = dataSource.getRepository('client');
   await clientRepository.query('TRUNCATE TABLE client;');
+
+  const bikeRepository = dataSource.getRepository('bike');
+  await bikeRepository.query('TRUNCATE TABLE bike;');
   await dataSource.destroy();
 };
