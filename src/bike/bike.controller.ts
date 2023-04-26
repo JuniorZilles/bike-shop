@@ -13,7 +13,7 @@ import {
   HttpCode
 } from '@nestjs/common';
 import { ApiCreatedResponse, ApiNoContentResponse, ApiNotFoundResponse, ApiOkResponse } from '@nestjs/swagger';
-import { BikeService } from './bike.service';
+import BikeService from './bike.service';
 import CreateBikeDto from './dto/create-bike.dto';
 import UpdateBikeDto from './dto/update-bike.dto';
 import IQueryDTO from './dto/query.dto';
@@ -25,6 +25,7 @@ export default class BikeController {
 
   @Post()
   @ApiCreatedResponse()
+  @ApiNotFoundResponse()
   create(@Body() createBikeDto: CreateBikeDto) {
     return this.bikeService.create(createBikeDto);
   }
@@ -53,6 +54,6 @@ export default class BikeController {
   @ApiNotFoundResponse()
   @ApiNoContentResponse()
   remove(@Param('id', ParseUUIDPipe) id: string) {
-    return this.bikeService.remove(id);
+    return this.bikeService.update(id, { isActive: false });
   }
 }
