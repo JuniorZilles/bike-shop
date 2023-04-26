@@ -7,33 +7,33 @@ export default class UpdateBikeDto extends PartialType(CreateBikeDto) {
   @ApiProperty()
   @IsOptional()
   @IsString()
-  displayName: string;
+  displayName?: string;
 
   @ApiProperty()
   @IsOptional()
   @IsString()
-  color: string;
+  color?: string;
 
   @ApiProperty()
   @IsOptional()
   @IsNumber()
-  rimSize: number;
+  rimSize?: number;
 
   @ApiProperty()
   @IsOptional()
   @IsString()
-  brand: string;
+  brand?: string;
 
   @ApiProperty()
   @IsOptional()
   @IsString()
-  nr: string;
+  nr?: string;
 
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
   @IsUUID()
-  clientId: string;
+  clientId?: string;
 
   isActive?: boolean;
 }
