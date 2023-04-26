@@ -14,7 +14,7 @@ export default class BikeService {
   async create(createBikeDto: CreateBikeDto): Promise<Bike> {
     const { clientId } = createBikeDto;
     const response = await this.clientRepository.findOne({ where: { clientId } });
-    if (response && !response?.isActive) {
+    if (!response && !response?.isActive) {
       throw new NotFoundException('User not found');
     }
     const bike = await this.bikeRepository.create({ ...createBikeDto, isActive: true });
