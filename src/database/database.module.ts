@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { Bike } from '../client/bike/entities/bike.entity';
+import Bike from '../bike/entities/bike.entity';
 import Client from '../client/entities/client.entity';
 import { Feedback } from '../feedback/entities/feedback.entity';
 import { Service } from '../service/entities/service.entity';
