@@ -61,12 +61,12 @@ describe('Bike REMOVE (e2e)', () => {
     expect(result.body.message).toBe('Bike Not Found');
   });
 
-  it('/bike (DELETE) with invalid bikeId should return status 400', async () => {
+  it('/bike (DELETE) with invalid bikeId format should return status 400', async () => {
     const result = await request(app.getHttpServer()).delete('/bike/feb933a0-bb89');
     expect(result.status).toBe(400);
   });
 
-  it('/bike (DELETE) with invalid bikeId should return the validation error', async () => {
+  it('/bike (DELETE) with invalid bikeId format should return the validation error', async () => {
     const result = await request(app.getHttpServer()).delete('/bike/feb933a0-bb89');
     expect(result.body.error).toBe('Bad Request');
     expect(result.body.statusCode).toBe(400);
