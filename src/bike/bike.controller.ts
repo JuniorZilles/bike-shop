@@ -17,6 +17,7 @@ import BikeService from './bike.service';
 import CreateBikeDto from './dto/create-bike.dto';
 import UpdateBikeDto from './dto/update-bike.dto';
 import IQueryDTO from './dto/query.dto';
+import successResponse from '../utils/response/success';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('bike')
@@ -45,8 +46,9 @@ export default class BikeController {
   @Patch(':id')
   @ApiOkResponse()
   @ApiNotFoundResponse()
-  update(@Param('id', ParseUUIDPipe) id: string, @Body() updateBikeDto: UpdateBikeDto) {
-    return this.bikeService.update(id, updateBikeDto);
+  async update(@Param('id', ParseUUIDPipe) id: string, @Body() updateBikeDto: UpdateBikeDto) {
+    await this.bikeService.update(id, updateBikeDto);
+    return successResponse;
   }
 
   @Delete(':id')
