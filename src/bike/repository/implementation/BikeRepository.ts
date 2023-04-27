@@ -41,4 +41,9 @@ export default class BikeRepository implements IBikeRepository {
     const client = await this.repository.update({ bikeId: id, clientId }, payload);
     return client.affected;
   }
+
+  async setIsActive(id: string, isActive: boolean): Promise<number> {
+    const client = await this.repository.update(id, { isActive });
+    return client.affected;
+  }
 }
