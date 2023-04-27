@@ -107,4 +107,16 @@ describe('Bike UPDATE (e2e)', () => {
       'clientId should not be empty'
     ]);
   });
+
+  it('/bike (PATCH) with invalid bikeId format should return status 400', async () => {
+    const result = await request(app.getHttpServer()).patch('/bike/feb933a0-bb89').send(validBike(clientId));
+    expect(result.status).toBe(400);
+  });
+
+  it('/bike (PATCH) with invalid bikeId format should return the validation error', async () => {
+    const result = await request(app.getHttpServer()).patch('/bike/feb933a0-bb89').send(validBike(clientId));
+    expect(result.body.error).toBe('Bad Request');
+    expect(result.body.statusCode).toBe(400);
+    expect(result.body.message).toEqual('Validation failed (uuid is expected)');
+  });
 });
