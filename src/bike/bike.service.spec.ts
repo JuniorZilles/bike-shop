@@ -125,6 +125,7 @@ describe('BikeService', () => {
     expect(service.findAll).toBeDefined();
     expect(service.findOne).toBeDefined();
     expect(service.update).toBeDefined();
+    expect(service.remove).toBeDefined();
   });
 
   describe('Insert', () => {
