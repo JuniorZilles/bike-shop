@@ -1,9 +1,7 @@
-import { PartialType } from '@nestjs/mapped-types';
 import { IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import CreateBikeDto from './create-bike.dto';
 
-export default class UpdateBikeDto extends PartialType(CreateBikeDto) {
+export default class UpdateBikeDto {
   @ApiProperty()
   @IsOptional()
   @IsString()
