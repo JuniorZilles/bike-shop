@@ -49,12 +49,12 @@ describe('Bike UPDATE (e2e)', () => {
     expect(result.body.status).toBe('success');
   });
 
-  it('/bike (PATCH) with valid data should return status 200', async () => {
+  it('/bike (PATCH) with one property to update should return status 200', async () => {
     const result = await request(app.getHttpServer()).patch(`/bike/${bikeId}`).send({ clientId, brand: 'GTS' });
     expect(result.status).toBe(200);
   });
 
-  it('/bike (PATCH) with valid data should return status success', async () => {
+  it('/bike (PATCH) with one property to update should return status success', async () => {
     const result = await request(app.getHttpServer()).patch(`/bike/${bikeId}`).send({ clientId, brand: 'GTS' });
     expect(result.body.status).toBe('success');
   });
