@@ -56,6 +56,6 @@ export default class BikeController {
   @ApiNotFoundResponse()
   @ApiNoContentResponse()
   remove(@Param('id', ParseUUIDPipe) id: string) {
-    return this.bikeService.update(id, { isActive: false });
+    return this.bikeService.remove(id);
   }
 }
