@@ -42,4 +42,11 @@ export default class BikeService {
       throw new NotFoundException('Bike or User Not Found');
     }
   }
+
+  async remove(id: string): Promise<void> {
+    const response = await this.bikeRepository.setIsActive(id, false);
+    if (!response || response === 0) {
+      throw new NotFoundException('Bike Not Found');
+    }
+  }
 }
