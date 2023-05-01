@@ -24,7 +24,7 @@ export default class CreateClientDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  @IsPhoneNumber()
+  @IsPhoneNumber('BR')
   phone: string;
 
   isActive?: boolean;
