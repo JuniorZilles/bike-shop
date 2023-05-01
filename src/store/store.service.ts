@@ -3,7 +3,7 @@ import { CreateStoreDto } from './dto/create-store.dto';
 import { UpdateStoreDto } from './dto/update-store.dto';
 
 @Injectable()
-export class StoreService {
+export default class StoreService {
   create(createStoreDto: CreateStoreDto) {
     return 'This action adds a new store';
   }
