@@ -1,11 +1,26 @@
-import { Injectable } from '@nestjs/common';
-import { CreateStoreDto } from './dto/create-store.dto';
-import { UpdateStoreDto } from './dto/update-store.dto';
+import { ConflictException, Injectable } from '@nestjs/common';
+import CreateStoreDto from './dto/create-store.dto';
+import UpdateStoreDto from './dto/update-store.dto';
+import StoreRepository from './repository/implementation/StoreRepository';
 
 @Injectable()
 export default class StoreService {
-  create(createStoreDto: CreateStoreDto) {
-    return 'This action adds a new store';
+  constructor(private readonly storeRepository: StoreRepository) {}
+
+  async create(createStoreDto: CreateStoreDto) {
+    const { email } = createStoreDto;
+    const response = await this.findByEmail(email);
+    if (response?.isActive) {
+      throw new ConflictException('Email already in use');
+    }
+    const store = await this.storeRepository.create({ ...createStoreDto, isActive: true });
+
+    return store;
+  }
+
+  private async findByEmail(email: string) {
+    const response = await this.storeRepository.findOne({ where: { email } });
+    return response;
   }
 
   findAll() {
