@@ -88,9 +88,17 @@ describe('BikeService', () => {
       bikes.push(entity);
       return entity;
     }),
-    update: jest.fn(({ bikeId, clientId }, entity) => {
-      const index = bikes.findIndex((item) => item.bikeId === bikeId && item.clientId === clientId);
-      bikes[index] = { ...bikes[index], ...entity };
+    update: jest.fn((condition, entity) => {
+      let index = -1;
+      const { bikeId, clientId } = condition;
+      if (bikeId && clientId) {
+        index = bikes.findIndex((item) => item.bikeId === bikeId && item.clientId === clientId);
+      } else {
+        index = bikes.findIndex((item) => item.bikeId === condition);
+      }
+      if (index >= 0) {
+        bikes[index] = { ...bikes[index], ...entity };
+      }
       return { affected: index !== -1 ? 1 : 0 };
     })
   }));
@@ -164,7 +172,7 @@ describe('BikeService', () => {
   });
 
   describe('Update', () => {
-    it('should update a client for the provided data', async () => {
+    it('should update a bike for the provided data', async () => {
       const insertedBike = await service.create(createBikeDto);
       await service.update(insertedBike.bikeId, updateBikeDto);
     });
@@ -261,6 +269,23 @@ describe('BikeService', () => {
       const client = await service.findAll({ brand: 'GTS' });
       expect(client).toBeDefined();
       expect(client.items.length).toEqual(0);
+    });
+  });
+
+  describe('Remove', () => {
+    it('should do a soft remove for the requested bike', async () => {
+      const insertedBike = await service.create(createBikeDto);
+      await service.remove(insertedBike.bikeId);
+    });
+
+    it('should generate an error if the passed bikeId is not present in DB', async () => {
+      try {
+        await service.remove('feb933a0-bb89-4d2d-a83d-a7ff83cd6334');
+      } catch (e) {
+        expect(e).toBeInstanceOf(NotFoundException);
+        expect(e.status).toBe(404);
+        expect(e.message).toBe('Bike Not Found');
+      }
     });
   });
 });
