@@ -29,6 +29,6 @@ export default class StoreController {
 
   @Delete(':id')
   remove(@Param('id', ParseUUIDPipe) id: string) {
-    return this.storeService.remove(id);
+    return this.storeService.update(id, { isActive: false });
   }
 }

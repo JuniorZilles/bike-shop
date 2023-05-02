@@ -37,8 +37,4 @@ export default class StoreService {
       throw new NotFoundException('Store Not Found');
     }
   }
-
-  remove(id: string) {
-    return `This action removes a #${id} store`;
-  }
 }
