@@ -218,4 +218,34 @@ describe('StoreService', () => {
       }
     });
   });
+
+  describe('Find All', () => {
+    beforeEach(async () => {
+      await service.create(createStoreDto);
+    });
+
+    it('should find all stores', async () => {
+      const store = await service.findAll({});
+      expect(store).toBeDefined();
+      expect(store.items.length).toEqual(1);
+    });
+
+    it('should not find stores when searching by displayName Mack Bike', async () => {
+      const store = await service.findAll({ displayName: 'Mack Bike' });
+      expect(store).toBeDefined();
+      expect(store.items.length).toEqual(0);
+    });
+
+    it('should find stores when searching by displayName Top', async () => {
+      const store = await service.findAll({ displayName: 'Top' });
+      expect(store).toBeDefined();
+      expect(store.items.length).toEqual(1);
+    });
+
+    it('should find stores when searching by phone', async () => {
+      const store = await service.findAll({ phone: '9173' });
+      expect(store).toBeDefined();
+      expect(store.items.length).toEqual(1);
+    });
+  });
 });
