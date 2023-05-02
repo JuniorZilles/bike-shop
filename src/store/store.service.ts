@@ -27,8 +27,12 @@ export default class StoreService {
     return `This action returns all store`;
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} store`;
+  async findOne(storeId: string) {
+    const response = await this.storeRepository.findOne({ where: { storeId } });
+    if (!response) {
+      throw new NotFoundException('Store Not Found');
+    }
+    return response;
   }
 
   async update(id: string, updateStoreDto: UpdateStoreDto) {
