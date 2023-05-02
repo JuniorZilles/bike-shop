@@ -53,6 +53,10 @@ export default class Store {
 
   @ApiProperty()
   @Column()
+  zipCode: string;
+
+  @ApiProperty()
+  @Column()
   state: string;
 
   @ApiProperty()
