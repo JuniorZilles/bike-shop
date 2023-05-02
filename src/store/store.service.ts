@@ -1,4 +1,4 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import CreateStoreDto from './dto/create-store.dto';
 import UpdateStoreDto from './dto/update-store.dto';
 import StoreRepository from './repository/implementation/StoreRepository';
@@ -27,15 +27,18 @@ export default class StoreService {
     return `This action returns all store`;
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} store`;
   }
 
-  update(id: number, updateStoreDto: UpdateStoreDto) {
-    return `This action updates a #${id} store`;
+  async update(id: string, updateStoreDto: UpdateStoreDto) {
+    const response = await this.storeRepository.update(id, updateStoreDto);
+    if (!response || response === 0) {
+      throw new NotFoundException('Store Not Found');
+    }
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} store`;
   }
 }
