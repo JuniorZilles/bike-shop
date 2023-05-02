@@ -1,8 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsEmail, IsEnum, IsOptional, IsPhoneNumber, IsString } from 'class-validator';
 import countryStates from '../../utils/constants/countryStates';
+import Pagination from '../../utils/typeorm/pagination';
 
-export default class IQueryDTO {
+export default class IQueryDTO extends Pagination {
   @ApiProperty()
   @IsOptional()
   @IsString()
