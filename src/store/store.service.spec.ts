@@ -173,4 +173,49 @@ describe('StoreService', () => {
       }
     });
   });
+
+  describe('Find', () => {
+    let insertStore: Store;
+    beforeEach(async () => {
+      insertStore = await service.create(createStoreDto);
+    });
+
+    it('should find a store with its storeId and be defined', async () => {
+      const store = await service.findOne(insertStore.storeId);
+      expect(store).toBeDefined();
+    });
+
+    it('should find a store with its storeId and return its data', async () => {
+      const store = await service.findOne(insertStore.storeId);
+      expect(store.storeId).toBe(insertStore.storeId);
+      expect(store.email).toBe(insertStore.email);
+      expect(store.displayName).toBe(insertStore.displayName);
+      expect(store.city).toBe(insertStore.city);
+      expect(store.phone).toBe(insertStore.phone);
+      expect(store.complement).toBe(insertStore.complement);
+      expect(store.latitude).toBe(insertStore.latitude);
+      expect(store.longitude).toBe(insertStore.longitude);
+      expect(store.neighborhood).toBe(insertStore.neighborhood);
+      expect(store.number).toBe(insertStore.number);
+      expect(store.state).toBe(insertStore.state);
+      expect(store.street).toBe(insertStore.street);
+      expect(store.isActive).toBe(insertStore.isActive);
+    });
+
+    it('should find a store with its storeId and not return the password', async () => {
+      const store = await service.findOne(insertStore.storeId);
+      expect(store).toBeDefined();
+      expect(store).not.toHaveProperty('password');
+    });
+
+    it('should generate an error if the passed storeId is not present in DB', async () => {
+      try {
+        await service.findOne('feb933a0-bb89-4d2d-a83d-a7ff83cd6334');
+      } catch (e) {
+        expect(e).toBeInstanceOf(NotFoundException);
+        expect(e.status).toBe(404);
+        expect(e.message).toBe('Store Not Found');
+      }
+    });
+  });
 });
