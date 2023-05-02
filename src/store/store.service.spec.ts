@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ConflictException } from '@nestjs/common';
+import { ConflictException, NotFoundException } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
@@ -8,6 +8,7 @@ import CreateStoreDto from './dto/create-store.dto';
 import Store from './entities/store.entity';
 import StoreRepository from './repository/implementation/StoreRepository';
 import { MockType } from '../utils/test/mocktype';
+import UpdateStoreDto from './dto/update-store.dto';
 
 describe('StoreService', () => {
   let service: StoreService;
@@ -25,6 +26,10 @@ describe('StoreService', () => {
     password: 'asdas6d4as5d4a65d4g354as',
     latitude: -29.579647375868305,
     longitude: -51.089799222713715
+  };
+
+  const updateStoreDto: UpdateStoreDto = {
+    displayName: 'Top Bike Dois Irmãos'
   };
   let stores: Store[] = [];
 
@@ -149,6 +154,23 @@ describe('StoreService', () => {
         expect(e).toBeInstanceOf(ConflictException);
         expect(e.status).toBe(409);
         expect(e.message).toBe('Email already in use');
+      }
+    });
+  });
+
+  describe('Update', () => {
+    it('should update a store for the provided data', async () => {
+      const store = await service.create(createStoreDto);
+      await service.update(store.storeId, updateStoreDto);
+    });
+
+    it('when doing a update with invalid store id', async () => {
+      try {
+        await service.update('feb933a0-bb89-4d2d-a83d-a7ff83cd6334', updateStoreDto);
+      } catch (e) {
+        expect(e).toBeInstanceOf(NotFoundException);
+        expect(e.status).toBe(404);
+        expect(e.message).toBe('Store Not Found');
       }
     });
   });
