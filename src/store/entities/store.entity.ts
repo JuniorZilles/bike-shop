@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Column, PrimaryColumn } from 'typeorm';
+import { Exclude } from 'class-transformer';
 import PasswordTransformer from '../../utils/typeorm/password.transformer';
 
 export default class Store {
@@ -15,11 +16,11 @@ export default class Store {
   @Column()
   email: string;
 
-  @ApiProperty()
   @Column({
     transformer: PasswordTransformer,
     select: false
   })
+  @Exclude()
   password: string;
 
   @ApiProperty()
