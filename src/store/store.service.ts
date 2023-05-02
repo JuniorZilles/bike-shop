@@ -2,6 +2,8 @@ import { ConflictException, Injectable, NotFoundException } from '@nestjs/common
 import CreateStoreDto from './dto/create-store.dto';
 import UpdateStoreDto from './dto/update-store.dto';
 import StoreRepository from './repository/implementation/StoreRepository';
+import { FindAllStore } from './dto/search.dto';
+import IQueryDTO from './dto/query.dto';
 
 @Injectable()
 export default class StoreService {
@@ -23,8 +25,10 @@ export default class StoreService {
     return response;
   }
 
-  findAll() {
-    return `This action returns all store`;
+  async findAll(query?: IQueryDTO): Promise<FindAllStore> {
+    const { limit, offset, ...where } = query;
+    const response = await this.storeRepository.findAll({ limit, offset, where });
+    return { totalResults: response[1], items: response[0], limit: query.limit || 20, offset: query.offset || 0 };
   }
 
   async findOne(storeId: string) {
