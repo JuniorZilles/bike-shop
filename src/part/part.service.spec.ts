@@ -2,12 +2,14 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { Repository } from 'typeorm';
 import { randomUUID } from 'crypto';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { PartService } from './part.service';
+import { NotFoundException } from '@nestjs/common';
+import PartService from './part.service';
 import { MockType } from '../utils/test/mocktype';
 import Store from '../store/entities/store.entity';
 import StoreRepository from '../store/repository/implementation/StoreRepository';
 import Part from './entities/part.entity';
 import PartRepository from './repository/implementation/PartRepository';
+import CreatePartDto from './dto/create-part.dto';
 
 describe('PartService', () => {
   let service: PartService;
@@ -32,6 +34,12 @@ describe('PartService', () => {
     }
   ];
   let parts: Part[] = [];
+
+  const createPartDto: CreatePartDto = {
+    storeId: generatedStoreId,
+    manufacturer: 'Shimano',
+    displayName: 'Par Freio MT 200'
+  };
 
   const storeRepositoryMock: () => MockType<Repository<Store>> = jest.fn(() => ({
     findOne: jest.fn(({ where }) => {
@@ -111,5 +119,42 @@ describe('PartService', () => {
     expect(service.findOne).toBeDefined();
     expect(service.remove).toBeDefined();
     expect(service.update).toBeDefined();
+  });
+
+  describe('Insert', () => {
+    it('should insert a part for the provided data', async () => {
+      const store = await service.create(createPartDto);
+      expect(store).toBeDefined();
+    });
+
+    it('when doing a insert a part will receive a id in the returning payload', async () => {
+      const store = await service.create(createPartDto);
+      expect(store).toBeDefined();
+      expect(store).toHaveProperty('partId');
+      expect(store).toHaveProperty('displayName');
+      expect(store).toHaveProperty('manufacturer');
+      expect(store).toHaveProperty('storeId');
+      expect(store).toHaveProperty('isActive');
+    });
+
+    it('when doing a insert a part will receive same data send in the returning payload', async () => {
+      const store = await service.create(createPartDto);
+
+      expect(store.displayName).toBe(createPartDto.displayName);
+      expect(store.manufacturer).toBe(createPartDto.manufacturer);
+      expect(store.partId).toBeDefined();
+      expect(store.storeId).toBe(createPartDto.storeId);
+      expect(store.isActive).toBe(true);
+    });
+
+    it('when doing a insert a part with invalid storeId should return an not found error', async () => {
+      try {
+        await service.create({ ...createPartDto, storeId: 'feb933a0-bb89-4d2d-a83d-a7ff83cd6334' });
+      } catch (e) {
+        expect(e).toBeInstanceOf(NotFoundException);
+        expect(e.status).toBe(404);
+        expect(e.message).toBe('Store Not Found');
+      }
+    });
   });
 });

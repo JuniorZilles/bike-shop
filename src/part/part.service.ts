@@ -1,11 +1,23 @@
-import { Injectable } from '@nestjs/common';
-import { CreatePartDto } from './dto/create-part.dto';
-import { UpdatePartDto } from './dto/update-part.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import CreatePartDto from './dto/create-part.dto';
+import UpdatePartDto from './dto/update-part.dto';
+import StoreRepository from '../store/repository/implementation/StoreRepository';
+import PartRepository from './repository/implementation/PartRepository';
+import { storeNotFound } from '../utils/constants/errorMessages';
 
 @Injectable()
-export class PartService {
-  create(createPartDto: CreatePartDto) {
-    return 'This action adds a new part';
+export default class PartService {
+  constructor(private readonly storeRepository: StoreRepository, private readonly partRepository: PartRepository) {}
+
+  async create(createPartDto: CreatePartDto) {
+    const { storeId } = createPartDto;
+    const response = await this.storeRepository.findOne({ where: { storeId } });
+    if (!response && !response?.isActive) {
+      throw new NotFoundException(storeNotFound);
+    }
+    const part = await this.partRepository.create({ ...createPartDto, isActive: true });
+
+    return part;
   }
 
   findAll() {

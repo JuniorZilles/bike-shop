@@ -7,4 +7,16 @@ export default class CreatePartDto {
   @IsString()
   @IsUUID()
   storeId: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  manufacturer: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  displayName: string;
+
+  isActive?: boolean;
 }

@@ -6,7 +6,7 @@ import { ServiceModule } from './service/service.module';
 import { FeedbackModule } from './feedback/feedback.module';
 import DatabaseModule from './database/database.module';
 import BikeModule from './bike/bike.module';
-import { PartModule } from './part/part.module';
+import PartModule from './part/part.module';
 import { MechanicModule } from './mechanic/mechanic.module';
 
 @Module({

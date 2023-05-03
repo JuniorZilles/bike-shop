@@ -12,5 +12,13 @@ export default class Part {
 
   @ApiProperty()
   @Column()
+  manufacturer: string;
+
+  @ApiProperty()
+  @Column()
+  displayName: string;
+
+  @ApiProperty()
+  @Column()
   isActive: boolean;
 }
