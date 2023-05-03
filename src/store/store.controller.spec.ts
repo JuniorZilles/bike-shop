@@ -1,6 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { getRepositoryToken } from '@nestjs/typeorm';
 import StoreController from './store.controller';
 import StoreService from './store.service';
+import StoreRepository from './repository/implementation/StoreRepository';
+import Store from './entities/store.entity';
 
 describe('StoreController', () => {
   let controller: StoreController;
@@ -8,7 +11,14 @@ describe('StoreController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [StoreController],
-      providers: [StoreService]
+      providers: [
+        {
+          provide: getRepositoryToken(Store),
+          useFactory: jest.fn()
+        },
+        StoreRepository,
+        StoreService
+      ]
     }).compile();
 
     controller = module.get<StoreController>(StoreController);

@@ -1,6 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import Client from '../client/entities/client.entity';
+import ClientRepository from '../client/repository/implementation/ClientRepository';
 import BikeController from './bike.controller';
 import BikeService from './bike.service';
+import BikeRepository from './repository/implementation/BikeRepository';
+import Bike from './entities/bike.entity';
 
 describe('BikeController', () => {
   let controller: BikeController;
@@ -8,7 +13,19 @@ describe('BikeController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [BikeController],
-      providers: [BikeService]
+      providers: [
+        {
+          provide: getRepositoryToken(Client),
+          useFactory: jest.fn()
+        },
+        ClientRepository,
+        {
+          provide: getRepositoryToken(Bike),
+          useFactory: jest.fn()
+        },
+        BikeRepository,
+        BikeService
+      ]
     }).compile();
 
     controller = module.get<BikeController>(BikeController);
