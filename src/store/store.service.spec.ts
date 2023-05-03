@@ -9,6 +9,7 @@ import Store from './entities/store.entity';
 import StoreRepository from './repository/implementation/StoreRepository';
 import { MockType } from '../utils/test/mocktype';
 import UpdateStoreDto from './dto/update-store.dto';
+import { emailInUse, storeNotFound } from '../utils/constants/errorMessages';
 
 describe('StoreService', () => {
   let service: StoreService;
@@ -152,7 +153,7 @@ describe('StoreService', () => {
       } catch (e) {
         expect(e).toBeInstanceOf(ConflictException);
         expect(e.status).toBe(409);
-        expect(e.message).toBe('Email already in use');
+        expect(e.message).toBe(emailInUse);
       }
     });
   });
@@ -169,7 +170,7 @@ describe('StoreService', () => {
       } catch (e) {
         expect(e).toBeInstanceOf(NotFoundException);
         expect(e.status).toBe(404);
-        expect(e.message).toBe('Store Not Found');
+        expect(e.message).toBe(storeNotFound);
       }
     });
   });
@@ -214,7 +215,7 @@ describe('StoreService', () => {
       } catch (e) {
         expect(e).toBeInstanceOf(NotFoundException);
         expect(e.status).toBe(404);
-        expect(e.message).toBe('Store Not Found');
+        expect(e.message).toBe(storeNotFound);
       }
     });
   });

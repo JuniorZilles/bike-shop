@@ -9,6 +9,7 @@ import { MockType } from '../utils/test/mocktype';
 import ClientRepository from './repository/implementation/ClientRepository';
 import CreateClientDto from './dto/create-client.dto';
 import UpdateClientDto from './dto/update-client.dto';
+import { emailInUse, userNotFound } from '../utils/constants/errorMessages';
 
 describe('ClientService', () => {
   let service: ClientService;
@@ -132,7 +133,7 @@ describe('ClientService', () => {
       } catch (e) {
         expect(e).toBeInstanceOf(ConflictException);
         expect(e.status).toBe(409);
-        expect(e.message).toBe('Email already in use');
+        expect(e.message).toBe(emailInUse);
       }
     });
   });
@@ -148,7 +149,7 @@ describe('ClientService', () => {
       } catch (e) {
         expect(e).toBeInstanceOf(NotFoundException);
         expect(e.status).toBe(404);
-        expect(e.message).toBe('Client Not Found');
+        expect(e.message).toBe(userNotFound);
       }
     });
   });
@@ -185,7 +186,7 @@ describe('ClientService', () => {
       } catch (e) {
         expect(e).toBeInstanceOf(NotFoundException);
         expect(e.status).toBe(404);
-        expect(e.message).toBe('Client Not Found');
+        expect(e.message).toBe(userNotFound);
       }
     });
   });

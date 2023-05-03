@@ -4,6 +4,7 @@ import UpdateStoreDto from './dto/update-store.dto';
 import StoreRepository from './repository/implementation/StoreRepository';
 import { FindAllStore } from './dto/search.dto';
 import IQueryDTO from './dto/query.dto';
+import { emailInUse, storeNotFound } from '../utils/constants/errorMessages';
 
 @Injectable()
 export default class StoreService {
@@ -13,7 +14,7 @@ export default class StoreService {
     const { email } = createStoreDto;
     const response = await this.findByEmail(email);
     if (response?.isActive) {
-      throw new ConflictException('Email already in use');
+      throw new ConflictException(emailInUse);
     }
     const store = await this.storeRepository.create({ ...createStoreDto, isActive: true });
 
@@ -34,7 +35,7 @@ export default class StoreService {
   async findOne(storeId: string) {
     const response = await this.storeRepository.findOne({ where: { storeId } });
     if (!response) {
-      throw new NotFoundException('Store Not Found');
+      throw new NotFoundException(storeNotFound);
     }
     return response;
   }
@@ -42,7 +43,7 @@ export default class StoreService {
   async update(id: string, updateStoreDto: UpdateStoreDto) {
     const response = await this.storeRepository.update(id, updateStoreDto);
     if (!response || response === 0) {
-      throw new NotFoundException('Store Not Found');
+      throw new NotFoundException(storeNotFound);
     }
   }
 }

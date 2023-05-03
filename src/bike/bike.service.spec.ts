@@ -11,6 +11,7 @@ import Bike from './entities/bike.entity';
 import CreateBikeDto from './dto/create-bike.dto';
 import BikeRepository from './repository/implementation/BikeRepository';
 import UpdateBikeDto from './dto/update-bike.dto';
+import { bikeNotFound, userNotFound } from '../utils/constants/errorMessages';
 
 describe('BikeService', () => {
   let service: BikeService;
@@ -148,7 +149,7 @@ describe('BikeService', () => {
       } catch (e) {
         expect(e).toBeInstanceOf(NotFoundException);
         expect(e.status).toBe(404);
-        expect(e.message).toBe('User not found');
+        expect(e.message).toBe(userNotFound);
       }
     });
 
@@ -231,7 +232,7 @@ describe('BikeService', () => {
       } catch (e) {
         expect(e).toBeInstanceOf(NotFoundException);
         expect(e.status).toBe(404);
-        expect(e.message).toBe('Bike Not Found');
+        expect(e.message).toBe(bikeNotFound);
       }
     });
   });
@@ -284,7 +285,7 @@ describe('BikeService', () => {
       } catch (e) {
         expect(e).toBeInstanceOf(NotFoundException);
         expect(e.status).toBe(404);
-        expect(e.message).toBe('Bike Not Found');
+        expect(e.message).toBe(bikeNotFound);
       }
     });
   });

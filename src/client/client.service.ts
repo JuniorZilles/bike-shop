@@ -4,6 +4,7 @@ import UpdateClientDto from './dto/update-client.dto';
 import ClientRepository from './repository/implementation/ClientRepository';
 import IQueryDTO from './dto/query.dto';
 import { FindAllClient } from './dto/search.dto';
+import { emailInUse, userNotFound } from '../utils/constants/errorMessages';
 
 @Injectable()
 export default class ClientService {
@@ -13,7 +14,7 @@ export default class ClientService {
     const { email } = createClientDto;
     const response = await this.findByEmail(email);
     if (response?.isActive) {
-      throw new ConflictException('Email already in use');
+      throw new ConflictException(emailInUse);
     }
     const client = await this.clientRepository.create({ ...createClientDto, isActive: true });
 
@@ -34,7 +35,7 @@ export default class ClientService {
   async findOne(clientId: string) {
     const response = await this.clientRepository.findOne({ where: { clientId } });
     if (!response) {
-      throw new NotFoundException('Client Not Found');
+      throw new NotFoundException(userNotFound);
     }
     return response;
   }
@@ -42,7 +43,7 @@ export default class ClientService {
   async update(id: string, updateClientDto: UpdateClientDto) {
     const response = await this.clientRepository.update(id, updateClientDto);
     if (!response || response === 0) {
-      throw new NotFoundException('Client Not Found');
+      throw new NotFoundException(userNotFound);
     }
   }
 }

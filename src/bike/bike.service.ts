@@ -6,6 +6,7 @@ import BikeRepository from './repository/implementation/BikeRepository';
 import Bike from './entities/bike.entity';
 import { FindAllBike } from './dto/search.dto';
 import IQueryDTO from './dto/query.dto';
+import { bikeNotFound, userNotFound } from '../utils/constants/errorMessages';
 
 @Injectable()
 export default class BikeService {
@@ -15,7 +16,7 @@ export default class BikeService {
     const { clientId } = createBikeDto;
     const response = await this.clientRepository.findOne({ where: { clientId } });
     if (!response && !response?.isActive) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException(userNotFound);
     }
     const bike = await this.bikeRepository.create({ ...createBikeDto, isActive: true });
 
@@ -31,7 +32,7 @@ export default class BikeService {
   async findOne(bikeId: string): Promise<Bike> {
     const response = await this.bikeRepository.findOne({ where: { bikeId } });
     if (!response) {
-      throw new NotFoundException('Bike Not Found');
+      throw new NotFoundException(bikeNotFound);
     }
     return response;
   }
@@ -46,7 +47,7 @@ export default class BikeService {
   async remove(id: string): Promise<void> {
     const response = await this.bikeRepository.setIsActive(id, false);
     if (!response || response === 0) {
-      throw new NotFoundException('Bike Not Found');
+      throw new NotFoundException(bikeNotFound);
     }
   }
 }
