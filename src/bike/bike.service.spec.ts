@@ -209,12 +209,12 @@ describe('BikeService', () => {
       insertedBike = await service.create(createBikeDto);
     });
 
-    it('should find a client with its bikeId and be defined', async () => {
+    it('should find a bike with its bikeId and be defined', async () => {
       const bike = await service.findOne(insertedBike.bikeId);
       expect(bike).toBeDefined();
     });
 
-    it('should find a client with its bikeId and return its data', async () => {
+    it('should find a bike with its bikeId and return its data', async () => {
       const bike = await service.findOne(insertedBike.bikeId);
       expect(bike.clientId).toBe(insertedBike.clientId);
       expect(bike.bikeId).toBe(insertedBike.bikeId);
@@ -226,7 +226,7 @@ describe('BikeService', () => {
       expect(bike.nr).toBe(insertedBike.nr);
     });
 
-    it('should generate an error if the passed clientId is not present in DB', async () => {
+    it('should generate an error if the passed bikeId is not present in DB', async () => {
       try {
         await service.findOne('feb933a0-bb89-4d2d-a83d-a7ff83cd6334');
       } catch (e) {
@@ -243,33 +243,33 @@ describe('BikeService', () => {
     });
 
     it('should find all bikes', async () => {
-      const client = await service.findAll({});
-      expect(client).toBeDefined();
-      expect(client.items.length).toEqual(1);
+      const bike = await service.findAll({});
+      expect(bike).toBeDefined();
+      expect(bike.items.length).toEqual(1);
     });
 
     it('should find bikes when searching by displayName HDS', async () => {
-      const client = await service.findAll({ displayName: 'HDS' });
-      expect(client).toBeDefined();
-      expect(client.items.length).toEqual(1);
+      const bike = await service.findAll({ displayName: 'HDS' });
+      expect(bike).toBeDefined();
+      expect(bike.items.length).toEqual(1);
     });
 
     it(`should find bikes when searching by clientId ${generatedClientId}`, async () => {
-      const client = await service.findAll({ clientId: generatedClientId });
-      expect(client).toBeDefined();
-      expect(client.items.length).toEqual(1);
+      const bike = await service.findAll({ clientId: generatedClientId });
+      expect(bike).toBeDefined();
+      expect(bike.items.length).toEqual(1);
     });
 
     it('should find bikes when searching by brand', async () => {
-      const client = await service.findAll({ brand: 'OGGI' });
-      expect(client).toBeDefined();
-      expect(client.items.length).toEqual(1);
+      const bike = await service.findAll({ brand: 'OGGI' });
+      expect(bike).toBeDefined();
+      expect(bike.items.length).toEqual(1);
     });
 
     it('should not find bikes when searching by brand that isnt registered', async () => {
-      const client = await service.findAll({ brand: 'GTS' });
-      expect(client).toBeDefined();
-      expect(client.items.length).toEqual(0);
+      const bike = await service.findAll({ brand: 'GTS' });
+      expect(bike).toBeDefined();
+      expect(bike.items.length).toEqual(0);
     });
   });
 
