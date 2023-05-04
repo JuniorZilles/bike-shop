@@ -8,6 +8,8 @@ export default class IQueryDTO extends Pagination {
   @IsString()
   storeIds?: string;
 
+  partId?: string;
+
   @ApiProperty()
   @IsOptional()
   @IsString()
@@ -16,17 +18,17 @@ export default class IQueryDTO extends Pagination {
   @ApiProperty()
   @IsOptional()
   @IsString()
-  manufacturers?: string;
+  manufacturer?: string;
 
   @ApiProperty()
   @IsOptional()
   @IsString()
-  nfs?: string;
+  nf?: string;
 
   @ApiProperty()
   @IsOptional()
   @IsString()
-  measurementUnits?: string;
+  measurementUnit?: string;
 
   @ApiProperty()
   @IsOptional()

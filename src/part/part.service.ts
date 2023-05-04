@@ -3,7 +3,10 @@ import CreatePartDto from './dto/create-part.dto';
 import UpdatePartDto from './dto/update-part.dto';
 import StoreRepository from '../store/repository/implementation/StoreRepository';
 import PartRepository from './repository/implementation/PartRepository';
-import { storeNotFound } from '../utils/constants/errorMessages';
+import { partNotFound, storeNotFound } from '../utils/constants/errorMessages';
+import Part from './entities/part.entity';
+import { FindAllPart } from './dto/search.dto';
+import IQueryDTO from './dto/query.dto';
 
 @Injectable()
 export default class PartService {
@@ -20,12 +23,18 @@ export default class PartService {
     return part;
   }
 
-  findAll() {
-    return `This action returns all part`;
+  async findAll(query?: IQueryDTO): Promise<FindAllPart> {
+    const { limit, offset, ...where } = query;
+    const response = await this.partRepository.findAll({ limit, offset, where });
+    return { totalResults: response[1], items: response[0], limit: query.limit || 20, offset: query.offset || 0 };
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} part`;
+  async findOne(partId: string): Promise<Part> {
+    const response = await this.partRepository.findOne({ where: { partId } });
+    if (!response) {
+      throw new NotFoundException(partNotFound);
+    }
+    return response;
   }
 
   async update(id: string, updatePartDto: UpdatePartDto) {
@@ -35,7 +44,10 @@ export default class PartService {
     }
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} part`;
+  async remove(id: string): Promise<void> {
+    const response = await this.partRepository.setIsActive(id, false);
+    if (!response || response === 0) {
+      throw new NotFoundException(partNotFound);
+    }
   }
 }
