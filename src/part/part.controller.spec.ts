@@ -41,5 +41,7 @@ describe('PartController', () => {
     expect(controller.findOne).toBeDefined();
     expect(controller.remove).toBeDefined();
     expect(controller.update).toBeDefined();
+    expect(controller.updateBatch).toBeDefined();
+    expect(controller.createBatch).toBeDefined();
   });
 });

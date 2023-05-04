@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { FindOperator } from 'typeorm';
 import { IsBoolean, IsOptional, IsString } from 'class-validator';
 import Pagination from '../../utils/typeorm/pagination';
 
@@ -7,6 +8,8 @@ export default class IQueryDTO extends Pagination {
   @IsOptional()
   @IsString()
   storeIds?: string;
+
+  storeId?: FindOperator<string>;
 
   partId?: string;
 
@@ -28,7 +31,7 @@ export default class IQueryDTO extends Pagination {
   @ApiProperty()
   @IsOptional()
   @IsString()
-  measurementUnit?: string;
+  unit?: string;
 
   @ApiProperty()
   @IsOptional()

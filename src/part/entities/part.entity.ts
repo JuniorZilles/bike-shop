@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, PrimaryColumn } from 'typeorm';
+import { Column, PrimaryColumn, OneToMany } from 'typeorm';
+import Batch from './batch.entity';
 
 export default class Part {
   @ApiProperty()
@@ -21,4 +22,7 @@ export default class Part {
   @ApiProperty()
   @Column()
   isActive: boolean;
+
+  @OneToMany(() => Batch, (batch) => batch.part, { cascade: true })
+  batch: Batch[];
 }

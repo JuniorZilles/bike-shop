@@ -76,8 +76,7 @@ describe('PartService', () => {
           (item) =>
             item.isActive === where.isActive &&
             (item.displayName.includes(where.displayName?.value?.replace(/%/g, '')) ||
-              item.manufacturer.includes(where.manufacturer?.value?.replace(/%/g, '')) ||
-              item.storeId.includes(where.storeId?.value[0]))
+              item.manufacturer.includes(where.manufacturer?.value?.replace(/%/g, '')))
         );
         return [part, part.length];
       }

@@ -1,4 +1,4 @@
-import { ILike, Repository } from 'typeorm';
+import { ILike, In, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import IPartRepository from '../IPartRepository';
 import Part from '../../entities/part.entity';
@@ -26,7 +26,11 @@ export default class PartRepository implements IPartRepository {
     const { where, offset: skip, limit: take } = options;
 
     Object.keys(where).forEach((key) => {
-      where[key] = ILike(`%${where[key]}%`);
+      if (key === 'storeIds') {
+        where.storeId = In<string>(where[key].split(','));
+      } else {
+        where[key] = ILike(`%${where[key]}%`);
+      }
     });
 
     where.isActive = true;
