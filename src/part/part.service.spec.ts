@@ -10,6 +10,7 @@ import StoreRepository from '../store/repository/implementation/StoreRepository'
 import Part from './entities/part.entity';
 import PartRepository from './repository/implementation/PartRepository';
 import CreatePartDto from './dto/create-part.dto';
+import UpdatePartDto from './dto/update-part.dto';
 
 describe('PartService', () => {
   let service: PartService;
@@ -39,6 +40,13 @@ describe('PartService', () => {
     storeId: generatedStoreId,
     manufacturer: 'Shimano',
     displayName: 'Par Freio MT 200'
+  };
+
+  const updatePartDto: UpdatePartDto = {
+    storeId: generatedStoreId,
+    manufacturer: 'Levorin',
+    displayName: 'Pneu mountain 29',
+    isActive: true
   };
 
   const storeRepositoryMock: () => MockType<Repository<Store>> = jest.fn(() => ({
@@ -154,6 +162,37 @@ describe('PartService', () => {
         expect(e).toBeInstanceOf(NotFoundException);
         expect(e.status).toBe(404);
         expect(e.message).toBe('Store Not Found');
+      }
+    });
+  });
+
+  describe('Update', () => {
+    let partId: string;
+    beforeEach(async () => {
+      const store = await service.create(createPartDto);
+      partId = store.partId;
+    });
+    it('should update a part for the provided data', async () => {
+      await service.update(partId, updatePartDto);
+    });
+
+    it('when doing a update for a part with invalid partId should return an not found error', async () => {
+      try {
+        await service.update('feb933a0-bb89-4d2d-a83d-a7ff83cd6334', updatePartDto);
+      } catch (e) {
+        expect(e).toBeInstanceOf(NotFoundException);
+        expect(e.status).toBe(404);
+        expect(e.message).toBe('Store or Part Not Found');
+      }
+    });
+
+    it('when doing a update for a part with invalid storeId should return an not found error', async () => {
+      try {
+        await service.update(partId, { ...updatePartDto, storeId: 'feb933a0-bb89-4d2d-a83d-a7ff83cd6334' });
+      } catch (e) {
+        expect(e).toBeInstanceOf(NotFoundException);
+        expect(e.status).toBe(404);
+        expect(e.message).toBe('Store or Part Not Found');
       }
     });
   });

@@ -24,15 +24,18 @@ export default class PartService {
     return `This action returns all part`;
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} part`;
   }
 
-  update(id: number, updatePartDto: UpdatePartDto) {
-    return `This action updates a #${id} part`;
+  async update(id: string, updatePartDto: UpdatePartDto) {
+    const response = await this.partRepository.update(id, updatePartDto);
+    if (!response || response === 0) {
+      throw new NotFoundException('Store or Part Not Found');
+    }
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} part`;
   }
 }
