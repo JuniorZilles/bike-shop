@@ -1,10 +1,10 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { MechanicService } from './mechanic.service';
-import { CreateMechanicDto } from './dto/create-mechanic.dto';
-import { UpdateMechanicDto } from './dto/update-mechanic.dto';
+import MechanicService from './mechanic.service';
+import CreateMechanicDto from './dto/create-mechanic.dto';
+import UpdateMechanicDto from './dto/update-mechanic.dto';
 
 @Controller('mechanic')
-export class MechanicController {
+export default class MechanicController {
   constructor(private readonly mechanicService: MechanicService) {}
 
   @Post()

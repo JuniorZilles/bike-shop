@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { CreateMechanicDto } from './dto/create-mechanic.dto';
-import { UpdateMechanicDto } from './dto/update-mechanic.dto';
+import CreateMechanicDto from './dto/create-mechanic.dto';
+import UpdateMechanicDto from './dto/update-mechanic.dto';
 
 @Injectable()
-export class MechanicService {
+export default class MechanicService {
   create(createMechanicDto: CreateMechanicDto) {
     return 'This action adds a new mechanic';
   }
