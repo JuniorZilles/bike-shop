@@ -63,7 +63,8 @@ export default class PartController {
   @Post(':id/batch')
   @ApiCreatedResponse()
   @ApiNotFoundResponse()
-  createBatch(@Param('id', ParseUUIDPipe) id: string, @Body() createBatchDto: CreateBatchDto) {
+  async createBatch(@Param('id', ParseUUIDPipe) id: string, @Body() createBatchDto: CreateBatchDto) {
+    await this.partService.findOne(id);
     return this.batchService.create(id, createBatchDto);
   }
 
