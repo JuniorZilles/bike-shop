@@ -3,125 +3,82 @@ import { Repository } from 'typeorm';
 import { randomUUID } from 'crypto';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { NotFoundException } from '@nestjs/common';
-import PartService from './part.service';
+import BatchService from './batch.service';
 import { MockType } from '../utils/test/mocktype';
-import Store from '../store/entities/store.entity';
-import StoreRepository from '../store/repository/implementation/StoreRepository';
-import Part from './entities/part.entity';
-import PartRepository from './repository/implementation/PartRepository';
-import CreatePartDto from './dto/create-part.dto';
-import UpdatePartDto from './dto/update-part.dto';
-import { partNotFound } from '../utils/constants/errorMessages';
+import CreateBatchDto from './dto/create-batch.dto';
+import Batch from './entities/batch.entity';
+import BatchRepository from './repository/implementation/BatchRepository';
+import UpdateBatchDto from './dto/update-batch.dto';
 
-describe('PartService', () => {
-  let service: PartService;
-  const generatedStoreId = randomUUID();
-  const stores: Store[] = [
-    {
-      storeId: generatedStoreId,
-      city: 'Dois Irmãos',
-      complement: 'em frente ao posto shell',
-      displayName: 'Top Bike',
-      email: 'topbike@mail.com',
-      neighborhood: 'centro',
-      number: '300',
-      street: 'Av. Irineu Becker',
-      phone: '+55 51 99173-9999',
-      state: 'RS',
-      zipCode: '93950-000',
-      password: 'asdas6d4as5d4a65d4g354as',
-      latitude: -29.579647375868305,
-      longitude: -51.089799222713715,
-      isActive: true
-    }
-  ];
-  let parts: Part[] = [];
+describe('BatchService', () => {
+  let service: BatchService;
+  let batchs: Batch[] = [];
+  const generatedPartId = randomUUID();
 
-  const createPartDto: CreatePartDto = {
-    storeId: generatedStoreId,
-    manufacturer: 'Shimano',
-    displayName: 'Par Freio MT 200'
+  const createBatchDto: CreateBatchDto = {
+    items: [
+      {
+        nf: '81486881713553303413365577369865103857553685108450',
+        price: 15.99,
+        qtd: 10,
+        unit: 'pc'
+      }
+    ]
+  };
+  const updateBatchDto: UpdateBatchDto = {
+    nf: '81486881713553303413365577369865103857553685108450',
+    price: 19.99,
+    qtd: 15,
+    unit: 'Kg'
   };
 
-  const updatePartDto: UpdatePartDto = {
-    storeId: generatedStoreId,
-    manufacturer: 'Levorin',
-    displayName: 'Pneu mountain 29',
-    isActive: true
-  };
-
-  const storeRepositoryMock: () => MockType<Repository<Store>> = jest.fn(() => ({
-    findOne: jest.fn(({ where }) => {
-      const store = stores.find((item) => item.storeId === where.storeId);
-      return store;
-    })
-  }));
-
-  const partRepositoryMock: () => MockType<Repository<Part>> = jest.fn(() => ({
+  const batchRepositoryMock: () => MockType<Repository<Batch>> = jest.fn(() => ({
     create: jest.fn((entity) => ({
       ...entity,
-      partId: randomUUID(),
+      batchId: randomUUID(),
       createdAt: new Date(),
       updatedAt: new Date(),
       isActive: true
     })),
-    findOne: jest.fn(({ where }) => {
-      const part = parts.find((item) => item.partId === where.partId);
-      return part;
-    }),
-    findAndCount: jest.fn(({ where }) => {
-      const keys = Object.keys(where);
-      if (keys.length > 1) {
-        const part = parts.filter(
-          (item) =>
-            item.isActive === where.isActive &&
-            (item.displayName.includes(where.displayName?.value?.replace(/%/g, '')) ||
-              item.manufacturer.includes(where.manufacturer?.value?.replace(/%/g, '')))
-        );
-        return [part, part.length];
-      }
-      return [parts, parts.length];
-    }),
-    find: jest.fn((entity) => entity),
-    remove: jest.fn((entity) => entity),
     save: jest.fn((entity) => {
-      parts.push(entity);
+      batchs.push(...entity);
       return entity;
     }),
     update: jest.fn((condition, entity) => {
       let index = -1;
-      const { storeId, partId } = condition;
-      if (storeId && partId) {
-        index = parts.findIndex((item) => item.storeId === storeId && item.partId === partId);
-      } else {
-        index = parts.findIndex((item) => item.partId === condition);
-      }
+      const { batchId, partId } = condition;
+      index = batchs.findIndex((item) => item.batchId === batchId && item.partId === partId);
       if (index >= 0) {
-        parts[index] = { ...parts[index], ...entity };
+        batchs[index] = { ...batchs[index], ...entity };
       }
       return { affected: index !== -1 ? 1 : 0 };
     })
   }));
 
   beforeEach(async () => {
-    parts = [];
+    batchs = [];
     const module: TestingModule = await Test.createTestingModule({
       providers: [
+        // {
+        //   provide: getRepositoryToken(Store),
+        //   useFactory: jest.fn()
+        // },
+        // StoreRepository,
+        // {
+        //   provide: getRepositoryToken(Part),
+        //   useFactory: jest.fn()
+        // },
+        // PartRepository,
         {
-          provide: getRepositoryToken(Store),
-          useFactory: storeRepositoryMock
+          provide: getRepositoryToken(Batch),
+          useFactory: batchRepositoryMock
         },
-        StoreRepository,
-        {
-          provide: getRepositoryToken(Part),
-          useFactory: partRepositoryMock
-        },
-        PartRepository,
-        PartService
+        BatchRepository,
+        BatchService
       ]
     }).compile();
 
-    service = module.get<PartService>(PartService);
+    service = module.get<BatchService>(BatchService);
   });
 
   it('should be defined', () => {
@@ -130,164 +87,67 @@ describe('PartService', () => {
 
   it('should have CRUD operations', () => {
     expect(service.create).toBeDefined();
-    expect(service.findAll).toBeDefined();
-    expect(service.findOne).toBeDefined();
-    expect(service.remove).toBeDefined();
     expect(service.update).toBeDefined();
   });
 
   describe('Insert', () => {
-    it('should insert a part for the provided data', async () => {
-      const store = await service.create(createPartDto);
+    it('should insert a batch for the provided data', async () => {
+      const store = await service.create(generatedPartId, createBatchDto);
       expect(store).toBeDefined();
+      expect(store.length).toEqual(createBatchDto.items.length);
     });
 
-    it('when doing a insert a part will receive a id in the returning payload', async () => {
-      const store = await service.create(createPartDto);
-      expect(store).toBeDefined();
-      expect(store).toHaveProperty('partId');
-      expect(store).toHaveProperty('displayName');
-      expect(store).toHaveProperty('manufacturer');
-      expect(store).toHaveProperty('storeId');
-      expect(store).toHaveProperty('isActive');
+    it('when doing a insert a batch will receive a id in the returning payload', async () => {
+      const stores = await service.create(generatedPartId, createBatchDto);
+      stores.forEach((store) => {
+        expect(store).toBeDefined();
+        expect(store).toHaveProperty('batchId');
+        expect(store).toHaveProperty('unit');
+        expect(store).toHaveProperty('nf');
+        expect(store).toHaveProperty('price');
+        expect(store).toHaveProperty('qtd');
+      });
     });
 
-    it('when doing a insert a part will receive same data send in the returning payload', async () => {
-      const store = await service.create(createPartDto);
-
-      expect(store.displayName).toBe(createPartDto.displayName);
-      expect(store.manufacturer).toBe(createPartDto.manufacturer);
-      expect(store.partId).toBeDefined();
-      expect(store.storeId).toBe(createPartDto.storeId);
-      expect(store.isActive).toBe(true);
-    });
-
-    it('when doing a insert a part with invalid storeId should return an not found error', async () => {
-      try {
-        await service.create({ ...createPartDto, storeId: 'feb933a0-bb89-4d2d-a83d-a7ff83cd6334' });
-      } catch (e) {
-        expect(e).toBeInstanceOf(NotFoundException);
-        expect(e.status).toBe(404);
-        expect(e.message).toBe('Store Not Found');
-      }
+    it('when doing a insert a batch will receive same data send in the returning payload', async () => {
+      const stores = await service.create(generatedPartId, createBatchDto);
+      stores.forEach((store, index) => {
+        expect(store.nf).toBe(createBatchDto.items[index].nf);
+        expect(store.price).toBe(createBatchDto.items[index].price);
+        expect(store.batchId).toBeDefined();
+        expect(store.qtd).toBe(createBatchDto.items[index].qtd);
+        expect(store.unit).toBe(createBatchDto.items[index].unit);
+      });
     });
   });
 
   describe('Update', () => {
-    let partId: string;
+    let batchId: string;
     beforeEach(async () => {
-      const part = await service.create(createPartDto);
-      partId = part.partId;
+      const batch = await service.create(generatedPartId, createBatchDto);
+      batchId = batch[0].batchId;
     });
-    it('should update a part for the provided data', async () => {
-      await service.update(partId, updatePartDto);
+    it('should update a batch for the provided data', async () => {
+      await service.update(generatedPartId, batchId, updateBatchDto);
     });
 
-    it('when doing a update for a part with invalid partId should return an not found error', async () => {
+    it('when doing a update for a batch with invalid batchId should return an not found error', async () => {
       try {
-        await service.update('feb933a0-bb89-4d2d-a83d-a7ff83cd6334', updatePartDto);
+        await service.update(generatedPartId, 'feb933a0-bb89-4d2d-a83d-a7ff83cd6334', updateBatchDto);
       } catch (e) {
         expect(e).toBeInstanceOf(NotFoundException);
         expect(e.status).toBe(404);
-        expect(e.message).toBe('Store or Part Not Found');
+        expect(e.message).toBe('Part or Batch Not Found');
       }
     });
 
-    it('when doing a update for a part with invalid storeId should return an not found error', async () => {
+    it('when doing a update for a batch with invalid partId should return an not found error', async () => {
       try {
-        await service.update(partId, { ...updatePartDto, storeId: 'feb933a0-bb89-4d2d-a83d-a7ff83cd6334' });
+        await service.update('feb933a0-bb89-4d2d-a83d-a7ff83cd6334', batchId, updateBatchDto);
       } catch (e) {
         expect(e).toBeInstanceOf(NotFoundException);
         expect(e.status).toBe(404);
-        expect(e.message).toBe('Store or Part Not Found');
-      }
-    });
-  });
-
-  describe('Find By Id', () => {
-    let part: Part;
-    beforeEach(async () => {
-      part = await service.create(createPartDto);
-    });
-
-    it('when searching for a part should return the provided data', async () => {
-      const result = await service.findOne(part.partId);
-      expect(result).toHaveProperty('storeId');
-      expect(result).toHaveProperty('partId');
-      expect(result).toHaveProperty('manufacturer');
-      expect(result).toHaveProperty('displayName');
-      expect(result).toHaveProperty('isActive');
-    });
-
-    it('when searching for a part should return same data received from create', async () => {
-      const result = await service.findOne(part.partId);
-      expect(result.storeId).toBe(part.storeId);
-      expect(result.partId).toBe(part.partId);
-      expect(result.manufacturer).toBe(part.manufacturer);
-      expect(result.displayName).toBe(part.displayName);
-      expect(result.isActive).toBe(part.isActive);
-    });
-
-    it('when searching for a part with invalid partId should return an not found error', async () => {
-      try {
-        await service.findOne('feb933a0-bb89-4d2d-a83d-a7ff83cd6334');
-      } catch (e) {
-        expect(e).toBeInstanceOf(NotFoundException);
-        expect(e.status).toBe(404);
-        expect(e.message).toBe('Part Not Found');
-      }
-    });
-  });
-
-  describe('Find all', () => {
-    beforeEach(async () => {
-      await service.create(createPartDto);
-    });
-
-    it('should find all parts', async () => {
-      const result = await service.findAll({});
-      expect(result).toBeDefined();
-      expect(result.items.length).toEqual(1);
-    });
-
-    it('should find parts when searching by manufacturers Shimano', async () => {
-      const result = await service.findAll({ manufacturer: 'Shimano' });
-      expect(result).toBeDefined();
-      expect(result.items.length).toEqual(1);
-    });
-
-    it(`should find parts when searching by storeId ${generatedStoreId}`, async () => {
-      const result = await service.findAll({ storeIds: generatedStoreId });
-      expect(result).toBeDefined();
-      expect(result.items.length).toEqual(1);
-    });
-
-    it('should find parts when searching by displayName', async () => {
-      const result = await service.findAll({ displayName: 'Freio' });
-      expect(result).toBeDefined();
-      expect(result.items.length).toEqual(1);
-    });
-
-    it('should not find parts when searching by displayName that isnt registered', async () => {
-      const result = await service.findAll({ displayName: 'Pneu' });
-      expect(result).toBeDefined();
-      expect(result.items.length).toEqual(0);
-    });
-  });
-
-  describe('Remove', () => {
-    it('should do a soft remove for the requested part', async () => {
-      const result = await service.create(createPartDto);
-      await service.remove(result.partId);
-    });
-
-    it('should generate an error if the passed partId is not present in DB', async () => {
-      try {
-        await service.remove('feb933a0-bb89-4d2d-a83d-a7ff83cd6334');
-      } catch (e) {
-        expect(e).toBeInstanceOf(NotFoundException);
-        expect(e.status).toBe(404);
-        expect(e.message).toBe(partNotFound);
+        expect(e.message).toBe('Part or Batch Not Found');
       }
     });
   });
