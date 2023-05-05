@@ -24,18 +24,23 @@ export default class PartRepository implements IPartRepository {
 
   findAll(options: ISearchPartDTO = { limit: 20, offset: 0 }): Promise<[Part[], number]> {
     const { where, offset: skip, limit: take } = options;
+    const { nf, unit, storeIds, ...rest } = where;
 
-    Object.keys(where).forEach((key) => {
-      if (key === 'storeIds') {
-        where.storeId = In<string>(where[key].split(','));
-      } else {
-        where[key] = ILike(`%${where[key]}%`);
-      }
+    const newWhere: { [name: string]: unknown } = { isActive: true };
+
+    Object.keys(rest).forEach((key) => {
+      newWhere[key] = ILike(`%${rest[key]}%`);
     });
 
-    where.isActive = true;
+    if (storeIds) {
+      newWhere.storeId = In<string>(storeIds.split(','));
+    }
 
-    return this.repository.findAndCount({ skip, take, where });
+    if (nf || unit) {
+      newWhere.batch = { nf, unit };
+    }
+
+    return this.repository.findAndCount({ skip, take, where, relations: ['batch'] });
   }
 
   async update(id: string, partPartial: UpdatePartDto): Promise<number> {
