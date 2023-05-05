@@ -59,16 +59,6 @@ describe('BatchService', () => {
     batchs = [];
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        // {
-        //   provide: getRepositoryToken(Store),
-        //   useFactory: jest.fn()
-        // },
-        // StoreRepository,
-        // {
-        //   provide: getRepositoryToken(Part),
-        //   useFactory: jest.fn()
-        // },
-        // PartRepository,
         {
           provide: getRepositoryToken(Batch),
           useFactory: batchRepositoryMock
