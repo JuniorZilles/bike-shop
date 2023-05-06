@@ -36,7 +36,7 @@ export default class MechanicRepository implements IMechanicRepository {
       newWhere.storeId = In<string>(storeIds.split(','));
     }
 
-    return this.repository.findAndCount({ skip, take, where, relations: ['batch'] });
+    return this.repository.findAndCount({ skip, take, where: newWhere, relations: ['batch'] });
   }
 
   async update(id: string, mechanicMechanicial: UpdateMechanicDto): Promise<number> {

@@ -8,6 +8,11 @@ export default class IQueryDTO extends Pagination {
   @IsString()
   storeIds?: string;
 
+  @ApiProperty()
+  @IsOptional()
+  @IsString()
+  name?: string;
+
   @IsEmpty()
   storeId?: string;
 
