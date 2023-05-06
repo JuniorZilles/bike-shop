@@ -40,7 +40,7 @@ export default class PartRepository implements IPartRepository {
       newWhere.batch = { nf, unit };
     }
 
-    return this.repository.findAndCount({ skip, take, where, relations: ['batch'] });
+    return this.repository.findAndCount({ skip, take, where: newWhere, relations: ['batch'] });
   }
 
   async update(id: string, partPartial: UpdatePartDto): Promise<number> {
