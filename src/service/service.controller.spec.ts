@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import ServiceController from './service.controller';
 import ServiceService from './service.service';
+import ServiceItensService from './service-itens.service';
 
 describe('ServiceController', () => {
   let controller: ServiceController;
@@ -8,7 +9,7 @@ describe('ServiceController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ServiceController],
-      providers: [ServiceService]
+      providers: [ServiceService, ServiceItensService]
     }).compile();
 
     controller = module.get<ServiceController>(ServiceController);
