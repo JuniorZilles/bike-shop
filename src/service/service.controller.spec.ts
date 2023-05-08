@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ServiceController } from './service.controller';
-import { ServiceService } from './service.service';
+import ServiceController from './service.controller';
+import ServiceService from './service.service';
 
 describe('ServiceController', () => {
   let controller: ServiceController;
@@ -24,5 +24,8 @@ describe('ServiceController', () => {
     expect(controller.findOne).toBeDefined();
     expect(controller.remove).toBeDefined();
     expect(controller.update).toBeDefined();
+    expect(controller.createItem).toBeDefined();
+    expect(controller.updateItem).toBeDefined();
+    expect(controller.removeItem).toBeDefined();
   });
 });

@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import ServiceService from './service.service';
+import ServiceItensService from './service-itens.service';
 
-describe('ServiceService', () => {
-  let service: ServiceService;
+describe('ServiceItensService', () => {
+  let service: ServiceItensService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [ServiceService]
+      providers: [ServiceItensService]
     }).compile();
 
-    service = module.get<ServiceService>(ServiceService);
+    service = module.get<ServiceItensService>(ServiceItensService);
   });
 
   it('should be defined', () => {
@@ -18,8 +18,6 @@ describe('ServiceService', () => {
 
   it('should have CRUD operations', () => {
     expect(service.create).toBeDefined();
-    expect(service.findAll).toBeDefined();
-    expect(service.findOne).toBeDefined();
     expect(service.remove).toBeDefined();
     expect(service.update).toBeDefined();
   });
