@@ -24,7 +24,7 @@ export default class ServiceRepository implements IServiceRepository {
 
   findAll(options: ISearchServiceDTO = { limit: 20, offset: 0 }): Promise<[Service[], number]> {
     const { where, offset: skip, limit: take } = options;
-    const { storeIds, clientIds, mechanicIds, creationDate, ...rest } = where;
+    const { storeIds, clientIds, mechanicIds, bikeIds, creationDate, ...rest } = where;
 
     const newWhere: { [name: string]: unknown } = { isActive: true };
 
@@ -40,6 +40,10 @@ export default class ServiceRepository implements IServiceRepository {
       newWhere.clientId = In<string>(clientIds.split(','));
     }
 
+    if (bikeIds) {
+      newWhere.bikeId = In<string>(bikeIds.split(','));
+    }
+
     if (mechanicIds) {
       newWhere.mechanicId = In<string>(mechanicIds.split(','));
     }
@@ -52,7 +56,7 @@ export default class ServiceRepository implements IServiceRepository {
   }
 
   async update(id: string, payload: UpdateServiceDto): Promise<number> {
-    const service = await this.repository.update({ serviceId: id }, payload);
+    const service = await this.repository.update(id, payload);
     return service.affected;
   }
 
