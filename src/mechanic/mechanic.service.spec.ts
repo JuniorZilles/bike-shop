@@ -49,7 +49,9 @@ describe('MechanicService', () => {
       password: 'asdas6d4as5d4a65d4g354as',
       latitude: -29.579647375868305,
       longitude: -51.089799222713715,
-      isActive: true
+      isActive: true,
+      createdAt: new Date(),
+      updatedAt: new Date()
     }
   ];
 
