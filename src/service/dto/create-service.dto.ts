@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import { ArrayMaxSize, ArrayMinSize, IsArray, IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import CreateServiceAdditionalItensDto from './create-service-additiona-itens.dto';
 
 export default class CreateServiceDto {
   @ApiProperty()
@@ -26,6 +27,11 @@ export default class CreateServiceDto {
   @IsNotEmpty()
   @IsString()
   description: string;
+
+  @ArrayMaxSize(10)
+  @ArrayMinSize(1)
+  @IsArray({ each: true })
+  additionalItens: CreateServiceAdditionalItensDto[];
 
   isActive?: boolean;
 }
