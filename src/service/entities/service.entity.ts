@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, CreateDateColumn, OneToMany, PrimaryColumn } from 'typeorm';
+import { Column, CreateDateColumn, OneToMany, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 import ServiceItem from './serviceItem.entity';
+import CreateServiceAdditionalItensDto from '../dto/create-service-additiona-itens.dto';
 
 export default class Service {
   @ApiProperty()
@@ -32,8 +33,16 @@ export default class Service {
   createdAt: Date;
 
   @ApiProperty()
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @ApiProperty()
   @Column()
   isActive: boolean;
+
+  @ApiProperty()
+  @Column({ array: true })
+  additionalItens: CreateServiceAdditionalItensDto[];
 
   @OneToMany(() => ServiceItem, (serviceItem) => serviceItem.service, { cascade: true })
   itens: ServiceItem[];

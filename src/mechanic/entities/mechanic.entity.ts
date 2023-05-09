@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
-import { Column, PrimaryColumn } from 'typeorm';
+import { Column, CreateDateColumn, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 import PasswordTransformer from '../../utils/typeorm/password.transformer';
 
 export default class Mechanic {
@@ -38,4 +38,12 @@ export default class Mechanic {
   @ApiProperty()
   @Column()
   isActive: boolean;
+
+  @ApiProperty()
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @ApiProperty()
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

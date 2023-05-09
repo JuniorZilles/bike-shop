@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Column, CreateDateColumn, JoinColumn, ManyToOne, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 import Part from './part.entity';
 
 export default class Batch {
@@ -29,5 +29,13 @@ export default class Batch {
 
   @JoinColumn({ name: 'partId' })
   @ManyToOne(() => Part, (part) => part.partId, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
-  part: Part;
+  part?: Part;
+
+  @ApiProperty()
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @ApiProperty()
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Column, CreateDateColumn, JoinColumn, ManyToOne, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 import Service from './service.entity';
 
 export default class ServiceItem {
@@ -26,4 +26,12 @@ export default class ServiceItem {
   @JoinColumn({ name: 'serviceId' })
   @ManyToOne(() => Service, (service) => service.serviceId, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   service: Service;
+
+  @ApiProperty()
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @ApiProperty()
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

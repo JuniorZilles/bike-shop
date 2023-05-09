@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, PrimaryColumn, OneToMany } from 'typeorm';
+import { Column, PrimaryColumn, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import Batch from './batch.entity';
 
 export default class Part {
@@ -24,5 +24,13 @@ export default class Part {
   isActive: boolean;
 
   @OneToMany(() => Batch, (batch) => batch.part, { cascade: true })
-  batch: Batch[];
+  batch?: Batch[];
+
+  @ApiProperty()
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @ApiProperty()
+  @UpdateDateColumn()
+  updatedAt: Date;
 }
