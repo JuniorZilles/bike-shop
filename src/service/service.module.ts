@@ -7,20 +7,18 @@ import Client from '../client/entities/client.entity';
 import Bike from '../bike/entities/bike.entity';
 import Store from '../store/entities/store.entity';
 import Part from '../part/entities/part.entity';
-import ClientRepository from '../client/repository/implementation/ClientRepository';
 import BikeRepository from '../bike/repository/implementation/BikeRepository';
-import StoreRepository from '../store/repository/implementation/StoreRepository';
 import PartRepository from '../part/repository/implementation/PartRepository';
 import ServiceItensService from './service-itens.service';
 import ServiceRepository from './repository/implementation/ServiceRepository';
 import ServiceItemRepository from './repository/implementation/ServiceItemRepository';
+import MechanicRepository from '../mechanic/repository/implementation/MechanicRepository';
 
 @Module({
   controllers: [ServiceController],
   providers: [
-    StoreRepository,
+    MechanicRepository,
     PartRepository,
-    ClientRepository,
     BikeRepository,
     ServiceRepository,
     ServiceItemRepository,
