@@ -12,19 +12,19 @@ export default class ServiceItemRepository implements IServiceItemRepository {
     this.repository = repository;
   }
 
-  async remove(id: string, serviceId: string): Promise<number> {
-    const item = await this.repository.delete({ serviceItemId: id, serviceId });
+  async remove(serviceId: string, serviceItemId: string): Promise<number> {
+    const item = await this.repository.delete({ serviceItemId, serviceId });
     return item.affected;
   }
 
-  create(partId: string, item: CreateServiceItemDto): Promise<ServiceItem> {
-    const newItem = this.repository.create({ ...item, partId });
+  create(serviceId: string, item: CreateServiceItemDto): Promise<ServiceItem> {
+    const newItem = this.repository.create({ ...item, serviceId });
 
     return this.repository.save(newItem);
   }
 
-  async update(id: string, itemId: string, payload: UpdateServiceItemDto): Promise<number> {
-    const item = await this.repository.update({ partId: id, serviceItemId: itemId }, payload);
+  async update(serviceId: string, serviceItemId: string, payload: UpdateServiceItemDto): Promise<number> {
+    const item = await this.repository.update({ serviceId, serviceItemId }, payload);
     return item.affected;
   }
 }

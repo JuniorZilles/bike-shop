@@ -9,7 +9,7 @@ export default class IQueryDTO extends Pagination {
   @IsString()
   storeIds?: string;
 
-  storeId?: FindOperator<string>;
+  storeId?: FindOperator<string> | string;
 
   partId?: string;
 

@@ -5,6 +5,11 @@ export default class CreateServiceItensDto {
   @ApiProperty()
   @IsNotEmpty()
   @IsUUID()
+  storeId: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsUUID()
   partId: string;
 
   @ApiProperty()

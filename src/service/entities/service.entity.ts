@@ -45,5 +45,5 @@ export default class Service {
   additionalItens: CreateServiceAdditionalItensDto[];
 
   @OneToMany(() => ServiceItem, (serviceItem) => serviceItem.service, { cascade: true })
-  itens: ServiceItem[];
+  itens?: ServiceItem[];
 }
