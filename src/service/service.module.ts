@@ -13,6 +13,8 @@ import ServiceItensService from './service-itens.service';
 import ServiceRepository from './repository/implementation/ServiceRepository';
 import ServiceItemRepository from './repository/implementation/ServiceItemRepository';
 import MechanicRepository from '../mechanic/repository/implementation/MechanicRepository';
+import Service from './entities/service.entity';
+import ServiceItem from './entities/serviceItem.entity';
 
 @Module({
   controllers: [ServiceController],
@@ -25,6 +27,6 @@ import MechanicRepository from '../mechanic/repository/implementation/MechanicRe
     ServiceItensService,
     ServiceService
   ],
-  imports: [TypeOrmModule.forFeature([Store, Part, Mechanic, Client, Bike])]
+  imports: [TypeOrmModule.forFeature([Store, Part, Mechanic, Client, Bike, Service, ServiceItem])]
 })
 export default class ServiceModule {}
