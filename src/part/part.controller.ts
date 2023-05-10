@@ -41,6 +41,7 @@ export default class PartController {
 
   @Get(':id')
   @ApiOkResponse()
+  @ApiNotFoundResponse()
   findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.partService.findOne(id);
   }

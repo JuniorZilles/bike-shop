@@ -8,7 +8,9 @@ import {
   Delete,
   HttpCode,
   UseInterceptors,
-  ClassSerializerInterceptor
+  ClassSerializerInterceptor,
+  ParseUUIDPipe,
+  Query
 } from '@nestjs/common';
 import { ApiCreatedResponse, ApiNoContentResponse, ApiNotFoundResponse, ApiOkResponse } from '@nestjs/swagger';
 import ServiceService from './service.service';
@@ -17,6 +19,7 @@ import CreateServiceItensDto from './dto/create-service-itens.dto';
 import UpdateServiceDto from './dto/update-service.dto';
 import ServiceItensService from './service-itens.service';
 import UpdateServiceItensDto from './dto/update-service-itens.dto';
+import IQueryDTO from './dto/query.dto';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('service')
@@ -35,20 +38,21 @@ export default class ServiceController {
 
   @Get()
   @ApiOkResponse()
-  findAll() {
-    return this.serviceService.findAll();
+  findAll(@Query() payload: IQueryDTO) {
+    return this.serviceService.findAll(payload);
   }
 
   @Get(':id')
   @ApiOkResponse()
-  findOne(@Param('id') id: string) {
+  @ApiNotFoundResponse()
+  findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.serviceService.findOne(id);
   }
 
   @Patch(':id')
   @ApiOkResponse()
   @ApiNotFoundResponse()
-  update(@Param('id') id: string, @Body() updateServiceDto: UpdateServiceDto) {
+  update(@Param('id', ParseUUIDPipe) id: string, @Body() updateServiceDto: UpdateServiceDto) {
     return this.serviceService.update(id, updateServiceDto);
   }
 
@@ -56,14 +60,14 @@ export default class ServiceController {
   @HttpCode(204)
   @ApiNotFoundResponse()
   @ApiNoContentResponse()
-  remove(@Param('id') id: string) {
+  remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.serviceService.remove(id);
   }
 
   @Post(':id/item')
   @ApiCreatedResponse()
   @ApiNotFoundResponse()
-  async createItem(@Param('id') id: string, @Body() createServiceItemDto: CreateServiceItensDto) {
+  async createItem(@Param('id', ParseUUIDPipe) id: string, @Body() createServiceItemDto: CreateServiceItensDto) {
     await this.serviceService.findOne(id);
     return this.serviceItensService.create(id, createServiceItemDto);
   }
@@ -72,8 +76,8 @@ export default class ServiceController {
   @ApiOkResponse()
   @ApiNotFoundResponse()
   async updateItem(
-    @Param('id') id: string,
-    @Param('itemId') itemId: string,
+    @Param('id', ParseUUIDPipe) id: string,
+    @Param('itemId', ParseUUIDPipe) itemId: string,
     @Body() updateServiceItemDto: UpdateServiceItensDto
   ) {
     return this.serviceItensService.update(id, itemId, updateServiceItemDto);
@@ -83,7 +87,7 @@ export default class ServiceController {
   @HttpCode(204)
   @ApiNotFoundResponse()
   @ApiNoContentResponse()
-  async removeItem(@Param('id') id: string, @Param('itemId') itemId: string) {
+  async removeItem(@Param('id', ParseUUIDPipe) id: string, @Param('itemId', ParseUUIDPipe) itemId: string) {
     return this.serviceItensService.remove(id, itemId);
   }
 }
