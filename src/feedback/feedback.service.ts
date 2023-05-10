@@ -1,14 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { CreateFeedbackDto } from './dto/create-feedback.dto';
-import { UpdateFeedbackDto } from './dto/update-feedback.dto';
+import CreateFeedbackDto from './dto/create-feedback.dto';
+import UpdateFeedbackDto from './dto/update-feedback.dto';
+import IQueryDTO from './dto/query.dto';
 
 @Injectable()
-export class FeedbackService {
+export default class FeedbackService {
   create(createFeedbackDto: CreateFeedbackDto) {
     return 'This action adds a new feedback';
   }
 
-  findAll() {
+  findAll(query?: IQueryDTO) {
     return `This action returns all feedback`;
   }
 
@@ -18,9 +19,5 @@ export class FeedbackService {
 
   update(id: number, updateFeedbackDto: UpdateFeedbackDto) {
     return `This action updates a #${id} feedback`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} feedback`;
   }
 }

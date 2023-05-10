@@ -1,1 +1,20 @@
-export class Feedback {}
+import { ApiProperty } from '@nestjs/swagger';
+import { Column, PrimaryColumn } from 'typeorm';
+
+export default class Feedback {
+  @ApiProperty()
+  @PrimaryColumn({ generated: 'uuid' })
+  feedbackId: string;
+
+  @ApiProperty()
+  @Column()
+  serviceId: string;
+
+  @ApiProperty()
+  @Column()
+  rating: number;
+
+  @ApiProperty()
+  @Column()
+  description: string;
+}
