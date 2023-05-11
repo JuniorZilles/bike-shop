@@ -1,5 +1,5 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { ISearchFeedbackDTO } from '../../dto/search.dto';
 import CreateFeedbackDto from '../../dto/create-feedback.dto';
 import Feedback from '../../entities/feedback.entity';
@@ -15,8 +15,16 @@ export default class FeedbackRepository implements IFeedbackRepository {
 
   findAll(options: ISearchFeedbackDTO = { limit: 20, offset: 0 }): Promise<[Feedback[], number]> {
     const { where, offset: skip, limit: take } = options;
+    const { serviceIds, ...newWhere } = where;
 
-    return this.repository.findAndCount({ skip, take, where });
+    if (serviceIds) {
+      if (newWhere.serviceId) {
+        serviceIds.push(newWhere.serviceId as string);
+      }
+      newWhere.serviceId = In(serviceIds);
+    }
+
+    return this.repository.findAndCount({ skip, take, where: newWhere });
   }
 
   async update(id: string, feedbackPartial: UpdateFeedbackDto): Promise<number> {

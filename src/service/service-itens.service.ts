@@ -19,9 +19,9 @@ export default class ServiceItensService {
       throw new NotFoundException(partNotFound);
     }
 
-    const part = await this.serviceItemRepository.create(id, createServiceItensDto);
+    const result = await this.serviceItemRepository.create(id, createServiceItensDto);
 
-    return part;
+    return result;
   }
 
   async update(id: string, itemId: string, updateServiceItensDto: UpdateServiceItensDto) {

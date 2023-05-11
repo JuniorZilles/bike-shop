@@ -28,9 +28,9 @@ export default class ServiceService {
     if (!responseBike && !responseBike?.isActive) {
       throw new NotFoundException('Client or Bike Not Found');
     }
-    const part = await this.serviceRepository.create({ ...createServiceDto, isActive: true });
+    const result = await this.serviceRepository.create({ ...createServiceDto, isActive: true });
 
-    return part;
+    return result;
   }
 
   async findAll(query?: IQueryDTO): Promise<FindAllService> {
