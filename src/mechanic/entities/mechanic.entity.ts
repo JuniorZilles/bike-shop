@@ -1,8 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
-import { Column, CreateDateColumn, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 import PasswordTransformer from '../../utils/typeorm/password.transformer';
 
+@Entity('mechanic')
 export default class Mechanic {
   @ApiProperty()
   @PrimaryColumn({ generated: 'uuid' })

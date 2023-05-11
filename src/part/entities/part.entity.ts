@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, PrimaryColumn, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Column, PrimaryColumn, OneToMany, CreateDateColumn, UpdateDateColumn, Entity } from 'typeorm';
 import Batch from './batch.entity';
 
+@Entity('part')
 export default class Part {
   @ApiProperty()
   @PrimaryColumn({ generated: 'uuid' })

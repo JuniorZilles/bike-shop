@@ -1,8 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, CreateDateColumn, OneToMany, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 import ServiceItem from './serviceItem.entity';
 import CreateServiceAdditionalItensDto from '../dto/create-service-additiona-itens.dto';
 
+@Entity('service')
 export default class Service {
   @ApiProperty()
   @PrimaryColumn({ generated: 'uuid' })
