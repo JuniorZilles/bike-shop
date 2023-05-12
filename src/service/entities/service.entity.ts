@@ -1,12 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import ServiceItem from './serviceItem.entity';
 import CreateServiceAdditionalItensDto from '../dto/create-service-additiona-itens.dto';
 
 @Entity('service')
 export default class Service {
   @ApiProperty()
-  @PrimaryColumn({ generated: 'uuid' })
+  @PrimaryGeneratedColumn('uuid')
   serviceId: string;
 
   @ApiProperty()
@@ -42,7 +42,7 @@ export default class Service {
   isActive: boolean;
 
   @ApiProperty()
-  @Column({ array: true })
+  @Column('text', { array: true })
   additionalItens: CreateServiceAdditionalItensDto[];
 
   @OneToMany(() => ServiceItem, (serviceItem) => serviceItem.service, { cascade: true })

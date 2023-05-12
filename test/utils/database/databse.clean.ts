@@ -19,7 +19,7 @@ export default async (): Promise<void> => {
     username: process.env.TYPEORM_USER,
     password: process.env.TYPEORM_PASSWORD,
     database: process.env.TYPEORM_DATABASE,
-    entities: [Client, Bike, Feedback, Service, Part, Batch, ServiceItem, Store],
+    entities: [Client, Bike, Store, Feedback, Service, Part, ServiceItem, Batch],
     schema: process.env.TYPEORM_SCHEMA,
     synchronize: process.env.TYPEORM_SINCRONIZE === 'true',
     migrations: [process.env.TYPEORM_MIGRATIONS],
