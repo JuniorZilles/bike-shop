@@ -37,11 +37,11 @@ export default class Store {
   complement?: string;
 
   @ApiProperty()
-  @Column()
+  @Column('decimal')
   latitude: number;
 
   @ApiProperty()
-  @Column()
+  @Column('decimal')
   longitude: number;
 
   @ApiProperty()

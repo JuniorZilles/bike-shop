@@ -8,10 +8,10 @@ export const validStore = () => ({
   number: faker.address.buildingNumber(),
   street: faker.address.street(),
   phone: faker.phone.number('+55 ## #####-####'),
-  state: faker.address.stateAbbr(),
+  state: 'RS',
   zipCode: faker.address.zipCode('#####-###'),
-  latitude: faker.address.latitude(),
-  longitude: faker.address.longitude(),
+  latitude: Number(faker.address.latitude()),
+  longitude: Number(faker.address.longitude()),
   email: faker.internet.email(),
   password: '^)3.Z<Hu6mRfUsXq'
 });
