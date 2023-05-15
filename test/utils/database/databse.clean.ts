@@ -8,6 +8,7 @@ import Store from '../../../src/store/entities/store.entity';
 import ServiceItem from '../../../src/service/entities/serviceItem.entity';
 import Part from '../../../src/part/entities/part.entity';
 import Batch from '../../../src/part/entities/batch.entity';
+import Mechanic from '../../../src/mechanic/entities/mechanic.entity';
 
 export default async (): Promise<void> => {
   ConfigModule.forRoot({ envFilePath: ['.env.test'] });
@@ -19,7 +20,7 @@ export default async (): Promise<void> => {
     username: process.env.TYPEORM_USER,
     password: process.env.TYPEORM_PASSWORD,
     database: process.env.TYPEORM_DATABASE,
-    entities: [Client, Bike, Store, Feedback, Service, Part, ServiceItem, Batch],
+    entities: [Client, Bike, Store, Mechanic, Feedback, Service, Part, ServiceItem, Batch],
     schema: process.env.TYPEORM_SCHEMA,
     synchronize: process.env.TYPEORM_SINCRONIZE === 'true',
     migrations: [process.env.TYPEORM_MIGRATIONS],
