@@ -32,6 +32,9 @@ export default async (): Promise<void> => {
   const bikeRepository = dataSource.getRepository('bike');
   await bikeRepository.query('TRUNCATE TABLE bike;');
 
+  const mechanicRepository = dataSource.getRepository('mechanic');
+  await mechanicRepository.query('TRUNCATE TABLE mechanic;');
+
   const storeRepository = dataSource.getRepository('store');
   await storeRepository.query('TRUNCATE TABLE store;');
   await dataSource.destroy();
