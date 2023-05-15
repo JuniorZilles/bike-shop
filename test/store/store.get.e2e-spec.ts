@@ -48,6 +48,7 @@ describe('Store GET (e2e)', () => {
 
     expect(store.storeId).toBe(body.storeId);
     expect(store.email).toBe(storeData.email);
+    expect(store.password).toBeUndefined();
     expect(store.displayName).toBe(storeData.displayName);
     expect(store.city).toBe(storeData.city);
     expect(store.phone).toBe(storeData.phone);
