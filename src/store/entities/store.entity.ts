@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from 'typeorm';
-import { Exclude } from 'class-transformer';
+import { Exclude, Transform } from 'class-transformer';
 import PasswordTransformer from '../../utils/typeorm/password.transformer';
 
 @Entity('store')
@@ -37,10 +37,12 @@ export default class Store {
   complement?: string;
 
   @ApiProperty()
+  @Transform((e) => Number(e.value))
   @Column('decimal')
   latitude: number;
 
   @ApiProperty()
+  @Transform((e) => Number(e.value))
   @Column('decimal')
   longitude: number;
 
