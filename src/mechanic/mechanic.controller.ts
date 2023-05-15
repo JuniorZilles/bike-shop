@@ -56,6 +56,6 @@ export default class MechanicController {
   @ApiNotFoundResponse()
   @ApiNoContentResponse()
   remove(@Param('id', ParseUUIDPipe) id: string) {
-    return this.mechanicService.update(id, { isActive: false });
+    return this.mechanicService.remove(id);
   }
 }

@@ -55,4 +55,11 @@ export default class MechanicService {
       throw new NotFoundException('Mechanic or Store Not Found');
     }
   }
+
+  async remove(id: string): Promise<void> {
+    const response = await this.mechanicRepository.setIsActive(id, false);
+    if (!response || response === 0) {
+      throw new NotFoundException(mechanicNotFound);
+    }
+  }
 }
