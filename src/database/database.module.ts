@@ -9,6 +9,7 @@ import Store from '../store/entities/store.entity';
 import Part from '../part/entities/part.entity';
 import Batch from '../part/entities/batch.entity';
 import ServiceItem from '../service/entities/serviceItem.entity';
+import Mechanic from '../mechanic/entities/mechanic.entity';
 
 @Module({
   imports: [
@@ -20,7 +21,7 @@ import ServiceItem from '../service/entities/serviceItem.entity';
       username: process.env.TYPEORM_USER,
       password: process.env.TYPEORM_PASSWORD,
       database: process.env.TYPEORM_DATABASE,
-      entities: [Client, Bike, Store, Feedback, Service, Part, ServiceItem, Batch],
+      entities: [Client, Bike, Store, Mechanic, Feedback, Service, Part, ServiceItem, Batch],
       schema: process.env.TYPEORM_SCHEMA,
       synchronize: process.env.TYPEORM_SINCRONIZE === 'true',
       migrations: [process.env.TYPEORM_MIGRATIONS],
