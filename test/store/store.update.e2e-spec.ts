@@ -5,6 +5,7 @@ import StoreModule from '../../src/store/store.module';
 import { updateInvalidStore, updateValidStore, validStore } from '../utils/factories/store/store.factory';
 import DatabaseModule from '../../src/database/database.module';
 import Store from '../../src/store/entities/store.entity';
+import { storeNotFound } from '../../src/utils/constants/errorMessages';
 
 describe('Store UPDATE (e2e)', () => {
   let app: INestApplication;
@@ -58,7 +59,7 @@ describe('Store UPDATE (e2e)', () => {
       .send(updateValidStore());
     expect(result.body.error).toBe('Not Found');
     expect(result.body.statusCode).toBe(404);
-    expect(result.body.message).toBe('Store Not Found');
+    expect(result.body.message).toBe(storeNotFound);
   });
 
   it('/store (PATCH) with invalid data should return status 400', async () => {
