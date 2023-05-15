@@ -16,7 +16,7 @@ import { ApiCreatedResponse, ApiNoContentResponse, ApiNotFoundResponse, ApiOkRes
 import MechanicService from './mechanic.service';
 import CreateMechanicDto from './dto/create-mechanic.dto';
 import UpdateMechanicDto from './dto/update-mechanic.dto';
-
+import successResponse from '../utils/response/success';
 import IQueryDTO from './dto/query.dto';
 
 @UseInterceptors(ClassSerializerInterceptor)
@@ -46,8 +46,9 @@ export default class MechanicController {
   @Patch(':id')
   @ApiOkResponse()
   @ApiNotFoundResponse()
-  update(@Param('id', ParseUUIDPipe) id: string, @Body() updateMechanicDto: UpdateMechanicDto) {
-    return this.mechanicService.update(id, updateMechanicDto);
+  async update(@Param('id', ParseUUIDPipe) id: string, @Body() updateMechanicDto: UpdateMechanicDto) {
+    await this.mechanicService.update(id, updateMechanicDto);
+    return successResponse;
   }
 
   @Delete(':id')

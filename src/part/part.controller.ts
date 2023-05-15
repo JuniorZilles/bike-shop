@@ -20,6 +20,7 @@ import IQueryDTO from './dto/query.dto';
 import UpdateBatchDto from './dto/update-batch.dto';
 import CreateBatchDto from './dto/create-batch.dto';
 import BatchService from './batch.service';
+import successResponse from '../utils/response/success';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('part')
@@ -49,8 +50,9 @@ export default class PartController {
   @Patch(':id')
   @ApiOkResponse()
   @ApiNotFoundResponse()
-  update(@Param('id', ParseUUIDPipe) id: string, @Body() updatePartDto: UpdatePartDto) {
-    return this.partService.update(id, updatePartDto);
+  async update(@Param('id', ParseUUIDPipe) id: string, @Body() updatePartDto: UpdatePartDto) {
+    await this.partService.update(id, updatePartDto);
+    return successResponse;
   }
 
   @Delete(':id')
@@ -72,11 +74,12 @@ export default class PartController {
   @Patch(':id/batch/:batchId')
   @ApiOkResponse()
   @ApiNotFoundResponse()
-  updateBatch(
+  async updateBatch(
     @Param('id', ParseUUIDPipe) id: string,
     @Param('batchId', ParseUUIDPipe) batchId: string,
     @Body() updateBatchDto: UpdateBatchDto
   ) {
-    return this.batchService.update(id, batchId, updateBatchDto);
+    await this.batchService.update(id, batchId, updateBatchDto);
+    return successResponse;
   }
 }

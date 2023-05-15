@@ -13,7 +13,7 @@ import { ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse } from '@nestjs/
 import FeedbackService from './feedback.service';
 import CreateFeedbackDto from './dto/create-feedback.dto';
 import UpdateFeedbackDto from './dto/update-feedback.dto';
-
+import successResponse from '../utils/response/success';
 import IQueryDTO from './dto/query.dto';
 
 @UseInterceptors(ClassSerializerInterceptor)
@@ -38,13 +38,14 @@ export default class FeedbackController {
   @ApiOkResponse()
   @ApiNotFoundResponse()
   findOne(@Param('id') id: string) {
-    return this.feedbackService.findOne(+id);
+    return this.feedbackService.findOne(id);
   }
 
   @Patch(':id')
   @ApiOkResponse()
   @ApiNotFoundResponse()
-  update(@Param('id') id: string, @Body() updateFeedbackDto: UpdateFeedbackDto) {
-    return this.feedbackService.update(+id, updateFeedbackDto);
+  async update(@Param('id') id: string, @Body() updateFeedbackDto: UpdateFeedbackDto) {
+    await this.feedbackService.update(id, updateFeedbackDto);
+    return successResponse;
   }
 }

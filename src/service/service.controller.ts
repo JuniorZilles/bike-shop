@@ -20,6 +20,7 @@ import UpdateServiceDto from './dto/update-service.dto';
 import ServiceItensService from './service-itens.service';
 import UpdateServiceItensDto from './dto/update-service-itens.dto';
 import IQueryDTO from './dto/query.dto';
+import successResponse from '../utils/response/success';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('service')
@@ -52,8 +53,9 @@ export default class ServiceController {
   @Patch(':id')
   @ApiOkResponse()
   @ApiNotFoundResponse()
-  update(@Param('id', ParseUUIDPipe) id: string, @Body() updateServiceDto: UpdateServiceDto) {
-    return this.serviceService.update(id, updateServiceDto);
+  async update(@Param('id', ParseUUIDPipe) id: string, @Body() updateServiceDto: UpdateServiceDto) {
+    await this.serviceService.update(id, updateServiceDto);
+    return successResponse;
   }
 
   @Delete(':id')
@@ -80,7 +82,8 @@ export default class ServiceController {
     @Param('itemId', ParseUUIDPipe) itemId: string,
     @Body() updateServiceItemDto: UpdateServiceItensDto
   ) {
-    return this.serviceItensService.update(id, itemId, updateServiceItemDto);
+    await this.serviceItensService.update(id, itemId, updateServiceItemDto);
+    return successResponse;
   }
 
   @Delete(':id/item/:itemId')

@@ -23,6 +23,7 @@ import StoreService from './store.service';
 import CreateStoreDto from './dto/create-store.dto';
 import UpdateStoreDto from './dto/update-store.dto';
 import IQueryDTO from './dto/query.dto';
+import successResponse from '../utils/response/success';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('store')
@@ -52,8 +53,9 @@ export default class StoreController {
   @Patch(':id')
   @ApiOkResponse()
   @ApiNotFoundResponse()
-  update(@Param('id', ParseUUIDPipe) id: string, @Body() updateStoreDto: UpdateStoreDto) {
-    return this.storeService.update(id, updateStoreDto);
+  async update(@Param('id', ParseUUIDPipe) id: string, @Body() updateStoreDto: UpdateStoreDto) {
+    await this.storeService.update(id, updateStoreDto);
+    return successResponse;
   }
 
   @Delete(':id')
