@@ -70,8 +70,8 @@ export default class ServiceController {
   @ApiCreatedResponse()
   @ApiNotFoundResponse()
   async createItem(@Param('id', ParseUUIDPipe) id: string, @Body() createServiceItemDto: CreateServiceItensDto) {
-    await this.serviceService.findOne(id);
-    return this.serviceItensService.create(id, createServiceItemDto);
+    const result = await this.serviceService.findOne(id);
+    return this.serviceItensService.create(id, { ...createServiceItemDto, storeId: result.storeId });
   }
 
   @Patch(':id/item/:itemId')
