@@ -27,6 +27,15 @@ export default async (): Promise<void> => {
     logging: false
   }).initialize();
 
+  const feedbackRepository = dataSource.getRepository('feedback');
+  await feedbackRepository.query('TRUNCATE TABLE feedback;');
+
+  const serviceItemRepository = dataSource.getRepository('service_item');
+  await serviceItemRepository.query('TRUNCATE TABLE service_item;');
+
+  const serviceRepository = dataSource.getRepository('service');
+  await serviceRepository.query('TRUNCATE TABLE service;');
+
   const clientRepository = dataSource.getRepository('client');
   await clientRepository.query('TRUNCATE TABLE client;');
 
@@ -35,6 +44,12 @@ export default async (): Promise<void> => {
 
   const mechanicRepository = dataSource.getRepository('mechanic');
   await mechanicRepository.query('TRUNCATE TABLE mechanic;');
+
+  const batchRepository = dataSource.getRepository('batch');
+  await batchRepository.query('TRUNCATE TABLE batch;');
+
+  const partRepository = dataSource.getRepository('part');
+  await partRepository.query('TRUNCATE TABLE part;');
 
   const storeRepository = dataSource.getRepository('store');
   await storeRepository.query('TRUNCATE TABLE store;');
