@@ -34,13 +34,13 @@ export default async (): Promise<void> => {
   await serviceItemRepository.query('TRUNCATE TABLE service_item;');
 
   const serviceRepository = dataSource.getRepository('service');
-  await serviceRepository.query('TRUNCATE TABLE service;');
-
-  const clientRepository = dataSource.getRepository('client');
-  await clientRepository.query('TRUNCATE TABLE client;');
+  await serviceRepository.query('TRUNCATE TABLE service CASCADE;');
 
   const bikeRepository = dataSource.getRepository('bike');
   await bikeRepository.query('TRUNCATE TABLE bike;');
+
+  const clientRepository = dataSource.getRepository('client');
+  await clientRepository.query('TRUNCATE TABLE client;');
 
   const mechanicRepository = dataSource.getRepository('mechanic');
   await mechanicRepository.query('TRUNCATE TABLE mechanic;');
@@ -49,7 +49,7 @@ export default async (): Promise<void> => {
   await batchRepository.query('TRUNCATE TABLE batch;');
 
   const partRepository = dataSource.getRepository('part');
-  await partRepository.query('TRUNCATE TABLE part;');
+  await partRepository.query('TRUNCATE TABLE part CASCADE;');
 
   const storeRepository = dataSource.getRepository('store');
   await storeRepository.query('TRUNCATE TABLE store;');
