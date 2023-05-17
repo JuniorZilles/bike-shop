@@ -6,6 +6,7 @@ import { invalidMechanic, validMechanic } from '../utils/factories/mechanic/mech
 import DatabaseModule from '../../src/database/database.module';
 import { validStore } from '../utils/factories/store/store.factory';
 import StoreModule from '../../src/store/store.module';
+import { storeNotFound } from '../../src/utils/constants/errorMessages';
 
 describe('Mechanic INSERT (e2e)', () => {
   let app: INestApplication;
@@ -53,6 +54,22 @@ describe('Mechanic INSERT (e2e)', () => {
     expect(mechanic.phone).toBe(validMechanicData.phone);
     expect(mechanic.isActive).toBe(true);
     expect(new Date(mechanic.hiringDate)).toEqual(validMechanicData.hiringDate);
+  });
+
+  it('/mechanic (POST) with invalid storeId should status 404', async () => {
+    const result = await request(app.getHttpServer())
+      .post('/mechanic')
+      .send(validMechanic('3716ad7c-eac1-47b0-9e59-7a10d989ded4'));
+    expect(result.status).toBe(404);
+  });
+
+  it('/mechanic (POST) with invalid storeId should return an error', async () => {
+    const result = await request(app.getHttpServer())
+      .post('/mechanic')
+      .send(validMechanic('3716ad7c-eac1-47b0-9e59-7a10d989ded4'));
+    expect(result.body.error).toBe('Not Found');
+    expect(result.body.statusCode).toBe(404);
+    expect(result.body.message).toBe(storeNotFound);
   });
 
   it('/mechanic (POST) with duplicated email should return status 409', async () => {
