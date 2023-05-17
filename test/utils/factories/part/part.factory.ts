@@ -11,7 +11,7 @@ export const invalidPart = {
   displayName: 564546654
 };
 
-export const updateValidPart = (storeId) => ({
+export const updateValidPart = (storeId: string) => ({
   storeId,
   manufacturer: faker.company.name(),
   displayName: faker.commerce.productName(),

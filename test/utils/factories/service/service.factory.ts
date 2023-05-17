@@ -34,7 +34,7 @@ export const invalidService = {
   ]
 };
 
-export const updateValidService = (mechanicId) => ({
+export const updateValidService = (mechanicId: string) => ({
   mechanicId,
   description: faker.lorem.paragraph(),
   additionalItens: [
