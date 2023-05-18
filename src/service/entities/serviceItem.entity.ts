@@ -25,7 +25,7 @@ export default class ServiceItem {
   qtd: number;
 
   @ApiProperty()
-  @Column()
+  @Column('decimal')
   unitPrice: number;
 
   @ApiProperty()

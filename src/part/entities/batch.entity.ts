@@ -33,7 +33,7 @@ export default class Batch {
   nf: string;
 
   @ApiProperty()
-  @Column()
+  @Column('decimal')
   price: number;
 
   @JoinColumn({ name: 'partId' })
