@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ArrayMaxSize, ArrayMinSize, IsArray, IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import { Type } from 'class-transformer';
+import { ArrayMaxSize, ArrayMinSize, IsArray, IsNotEmpty, IsString, IsUUID, ValidateNested } from 'class-validator';
 import CreateServiceAdditionalItensDto from './create-service-additiona-itens.dto';
 
 export default class CreateServiceDto {
@@ -30,7 +31,9 @@ export default class CreateServiceDto {
 
   @ArrayMaxSize(10)
   @ArrayMinSize(1)
-  @IsArray({ each: true })
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => CreateServiceAdditionalItensDto)
   additionalItens: CreateServiceAdditionalItensDto[];
 
   isActive?: boolean;
