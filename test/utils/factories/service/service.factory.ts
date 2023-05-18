@@ -19,7 +19,7 @@ export const validService = ({
   additionalItens: [
     {
       description: faker.lorem.paragraph(),
-      value: faker.commerce.price()
+      value: Number(faker.commerce.price())
     }
   ]
 });
@@ -29,7 +29,7 @@ export const invalidService = {
   additionalItens: [
     {
       description: 65464546,
-      value: faker.commerce.price().toString()
+      value: faker.commerce.price()
     }
   ]
 };
@@ -40,7 +40,7 @@ export const updateValidService = (mechanicId: string) => ({
   additionalItens: [
     {
       description: faker.lorem.paragraph(),
-      value: faker.commerce.price()
+      value: Number(faker.commerce.price())
     }
   ],
   isActive: true
@@ -51,7 +51,7 @@ export const updateInvalidService = {
   additionalItens: [
     {
       description: 65464546,
-      value: faker.commerce.price().toString()
+      value: faker.commerce.price()
     }
   ],
   isActive: 564155
