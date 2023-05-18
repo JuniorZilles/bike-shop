@@ -32,7 +32,7 @@ export const invalidBatch = {
 };
 
 export const updateValidBatch = () => ({
-  nf: faker.random.numeric(50).toString(),
+  nf: faker.random.numeric(50),
   price: Number(faker.commerce.price()),
   qtd: Number(faker.random.numeric(2)),
   unit: 'Kg'
