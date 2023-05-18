@@ -19,7 +19,7 @@ export default class PartRepository implements IPartRepository {
   }
 
   findOne(where: ISearchPartDTO): Promise<Part> {
-    return this.repository.findOne(where);
+    return this.repository.findOne({ ...where, relations: ['batch'] });
   }
 
   findAll(options: ISearchPartDTO = { limit: 20, offset: 0 }): Promise<[Part[], number]> {
