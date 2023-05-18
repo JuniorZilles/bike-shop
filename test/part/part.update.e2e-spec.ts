@@ -7,7 +7,6 @@ import DatabaseModule from '../../src/database/database.module';
 import Part from '../../src/part/entities/part.entity';
 import StoreModule from '../../src/store/store.module';
 import { validStore } from '../utils/factories/store/store.factory';
-import { storeNotFound } from '../../src/utils/constants/errorMessages';
 
 describe('Part UPDATE (e2e)', () => {
   let app: INestApplication;
@@ -53,18 +52,18 @@ describe('Part UPDATE (e2e)', () => {
 
   it('/part (PATCH) with invalid storeId should return status 404', async () => {
     const result = await request(app.getHttpServer())
-      .post('/part')
-      .send(validPart('3716ad7c-eac1-47b0-9e59-7a10d989ded4'));
+      .patch(`/part/${body.partId}`)
+      .send(updateValidPart('3716ad7c-eac1-47b0-9e59-7a10d989ded4'));
     expect(result.status).toBe(404);
   });
 
   it('/part (PATCH) with invalid storeId should return an error', async () => {
     const result = await request(app.getHttpServer())
-      .post('/part')
-      .send(validPart('3716ad7c-eac1-47b0-9e59-7a10d989ded4'));
+      .patch(`/part/${body.partId}`)
+      .send(updateValidPart('3716ad7c-eac1-47b0-9e59-7a10d989ded4'));
     expect(result.body.error).toBe('Not Found');
     expect(result.body.statusCode).toBe(404);
-    expect(result.body.message).toBe(storeNotFound);
+    expect(result.body.message).toBe('Store or Part Not Found');
   });
 
   it('/part (PATCH) with non existing id should return status 404', async () => {
