@@ -2,8 +2,8 @@ import { faker } from '@faker-js/faker';
 
 export const validServiceItem = (partId: string) => ({
   partId,
-  qtd: faker.random.numeric(1),
-  unitPrice: faker.commerce.price()
+  qtd: Number(faker.random.numeric(1)),
+  unitPrice: Number(faker.commerce.price())
 });
 
 export const invalidServiceItem = {
@@ -12,8 +12,8 @@ export const invalidServiceItem = {
 };
 
 export const updateValidServiceItem = () => ({
-  qtd: faker.random.numeric(1),
-  unitPrice: faker.commerce.price()
+  qtd: Number(faker.random.numeric(1)),
+  unitPrice: Number(faker.commerce.price())
 });
 
 export const updateInvalidServiceItem = {
