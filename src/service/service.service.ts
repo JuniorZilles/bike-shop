@@ -1,10 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import CreateServiceDto from './dto/create-service.dto';
 import UpdateServiceDto from './dto/update-service.dto';
 import { FindAllService } from './dto/search.dto';
 import IQueryDTO from './dto/query.dto';
 import Service from './entities/service.entity';
-import { serviceNotFound } from '../utils/constants/errorMessages';
+import { mechanicNotFound, serviceNotFound } from '../utils/constants/errorMessages';
 import ServiceRepository from './repository/implementation/ServiceRepository';
 import MechanicRepository from '../mechanic/repository/implementation/MechanicRepository';
 import BikeRepository from '../bike/repository/implementation/BikeRepository';
@@ -48,6 +48,20 @@ export default class ServiceService {
   }
 
   async update(id: string, updateServiceDto: UpdateServiceDto) {
+    const { mechanicId } = updateServiceDto;
+    if (mechanicId) {
+      const responseMechanic = await this.mechanicRepository.findOne({ where: { mechanicId } });
+      if (!responseMechanic && !responseMechanic?.isActive) {
+        throw new NotFoundException(mechanicNotFound);
+      }
+
+      const responseService = await this.serviceRepository.findOne({
+        where: { serviceId: id, storeId: responseMechanic.storeId }
+      });
+      if (!responseService) {
+        throw new BadRequestException('Invalid mechanic for selected service');
+      }
+    }
     const response = await this.serviceRepository.update(id, updateServiceDto);
     if (!response || response === 0) {
       throw new NotFoundException(serviceNotFound);
