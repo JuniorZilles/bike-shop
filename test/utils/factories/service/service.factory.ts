@@ -34,7 +34,7 @@ export const invalidService = {
   ]
 };
 
-export const updateValidService = (mechanicId: string) => ({
+export const updateValidService = (mechanicId?: string) => ({
   mechanicId,
   description: faker.lorem.paragraph(),
   additionalItens: [
@@ -42,8 +42,7 @@ export const updateValidService = (mechanicId: string) => ({
       description: faker.lorem.paragraph(),
       value: Number(faker.commerce.price())
     }
-  ],
-  isActive: true
+  ]
 });
 
 export const updateInvalidService = {
