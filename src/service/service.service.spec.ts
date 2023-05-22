@@ -7,7 +7,6 @@ import ServiceService from './service.service';
 import PartRepository from '../part/repository/implementation/PartRepository';
 import BikeRepository from '../bike/repository/implementation/BikeRepository';
 import ServiceRepository from './repository/implementation/ServiceRepository';
-import ServiceItensService from './service-itens.service';
 import Service from './entities/service.entity';
 import Bike from '../bike/entities/bike.entity';
 import Part from '../part/entities/part.entity';
@@ -16,7 +15,7 @@ import CreateServiceDto from './dto/create-service.dto';
 import UpdateServiceDto from './dto/update-service.dto';
 import MechanicRepository from '../mechanic/repository/implementation/MechanicRepository';
 import Mechanic from '../mechanic/entities/mechanic.entity';
-import { serviceNotFound } from '../utils/constants/errorMessages';
+import { mechanicNotFound, serviceNotFound } from '../utils/constants/errorMessages';
 
 describe('ServiceService', () => {
   let service: ServiceService;
@@ -183,7 +182,6 @@ describe('ServiceService', () => {
           useFactory: serviceRepositoryMock
         },
         ServiceRepository,
-        ServiceItensService,
         ServiceService
       ]
     }).compile();
@@ -304,7 +302,7 @@ describe('ServiceService', () => {
       } catch (e) {
         expect(e).toBeInstanceOf(NotFoundException);
         expect(e.status).toBe(404);
-        expect(e.message).toBe('Store or Service Not Found');
+        expect(e.message).toBe(mechanicNotFound);
       }
     });
   });
