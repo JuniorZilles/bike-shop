@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import ServiceItem from './serviceItem.entity';
 import CreateServiceAdditionalItensDto from '../dto/create-service-additiona-itens.dto';
+import jsonTransformer from '../../utils/typeorm/json.transformer';
 
 @Entity('service')
 export default class Service {
@@ -42,7 +43,7 @@ export default class Service {
   isActive: boolean;
 
   @ApiProperty()
-  @Column('text', { array: true })
+  @Column('text', { array: true, transformer: jsonTransformer })
   additionalItens: CreateServiceAdditionalItensDto[];
 
   @OneToMany(() => ServiceItem, (serviceItem) => serviceItem.service, { cascade: true })
