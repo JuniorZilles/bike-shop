@@ -29,6 +29,7 @@ export default class CreateServiceDto {
   @IsString()
   description: string;
 
+  @ApiProperty()
   @ArrayMaxSize(10)
   @ArrayMinSize(1)
   @IsArray()
