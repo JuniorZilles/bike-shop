@@ -37,7 +37,7 @@ export default class Mechanic {
   hiringDate: Date;
 
   @ApiProperty()
-  @Column()
+  @Column({ default: true })
   isActive: boolean;
 
   @ApiProperty()

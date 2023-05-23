@@ -22,7 +22,7 @@ export default class MechanicService {
     }
     await this.findByEmail(email);
 
-    const mechanic = await this.mechanicRepository.create({ ...createMechanicDto, isActive: true });
+    const mechanic = await this.mechanicRepository.create({ ...createMechanicDto });
 
     return mechanic;
   }

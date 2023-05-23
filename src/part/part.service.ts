@@ -18,7 +18,7 @@ export default class PartService {
     if (!response && !response?.isActive) {
       throw new NotFoundException(storeNotFound);
     }
-    const part = await this.partRepository.create({ ...createPartDto, isActive: true });
+    const part = await this.partRepository.create({ ...createPartDto });
 
     return part;
   }

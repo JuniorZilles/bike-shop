@@ -18,7 +18,7 @@ export default class BikeService {
     if (!response && !response?.isActive) {
       throw new NotFoundException(userNotFound);
     }
-    const bike = await this.bikeRepository.create({ ...createBikeDto, isActive: true });
+    const bike = await this.bikeRepository.create({ ...createBikeDto });
 
     return bike;
   }

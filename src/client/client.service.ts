@@ -16,7 +16,7 @@ export default class ClientService {
     if (response?.isActive) {
       throw new ConflictException(emailInUse);
     }
-    const client = await this.clientRepository.create({ ...createClientDto, isActive: true });
+    const client = await this.clientRepository.create({ ...createClientDto });
 
     return client;
   }

@@ -21,7 +21,7 @@ export default class Part {
   displayName: string;
 
   @ApiProperty()
-  @Column()
+  @Column({ default: true })
   isActive: boolean;
 
   @OneToMany(() => Batch, (batch) => batch.part, { cascade: true })

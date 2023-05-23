@@ -67,7 +67,7 @@ export default class Store {
   phone: string;
 
   @ApiProperty()
-  @Column()
+  @Column({ default: true })
   isActive: boolean;
 
   @ApiProperty()

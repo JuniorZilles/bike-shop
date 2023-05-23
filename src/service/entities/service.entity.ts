@@ -39,7 +39,7 @@ export default class Service {
   updatedAt: Date;
 
   @ApiProperty()
-  @Column()
+  @Column({ default: true })
   isActive: boolean;
 
   @ApiProperty()

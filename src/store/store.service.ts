@@ -16,7 +16,7 @@ export default class StoreService {
     if (response?.isActive) {
       throw new ConflictException(emailInUse);
     }
-    const store = await this.storeRepository.create({ ...createStoreDto, isActive: true });
+    const store = await this.storeRepository.create({ ...createStoreDto });
 
     return store;
   }

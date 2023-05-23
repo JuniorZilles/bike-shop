@@ -28,7 +28,7 @@ export default class ServiceService {
     if (!responseBike && !responseBike?.isActive) {
       throw new NotFoundException('Client or Bike Not Found');
     }
-    const result = await this.serviceRepository.create({ ...createServiceDto, isActive: true });
+    const result = await this.serviceRepository.create({ ...createServiceDto });
 
     return result;
   }
