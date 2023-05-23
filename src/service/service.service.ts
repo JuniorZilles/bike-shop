@@ -40,7 +40,7 @@ export default class ServiceService {
   }
 
   async findOne(serviceId: string): Promise<Service> {
-    const response = await this.serviceRepository.findOne({ where: { serviceId } });
+    const response = await this.serviceRepository.findOne({ serviceId });
     if (!response) {
       throw new NotFoundException(serviceNotFound);
     }
@@ -56,7 +56,8 @@ export default class ServiceService {
       }
 
       const responseService = await this.serviceRepository.findOne({
-        where: { serviceId: id, storeId: responseMechanic.storeId }
+        serviceId: id,
+        storeId: responseMechanic.storeId
       });
       if (!responseService) {
         throw new BadRequestException('Invalid mechanic for selected service');

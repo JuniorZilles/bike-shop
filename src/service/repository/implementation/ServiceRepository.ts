@@ -5,6 +5,7 @@ import Service from '../../entities/service.entity';
 import CreateServiceDto from '../../dto/create-service.dto';
 import { ISearchServiceDTO } from '../../dto/search.dto';
 import UpdateServiceDto from '../../dto/update-service.dto';
+import IQueryFind from '../../dto/query-find.dto';
 
 export default class ServiceRepository implements IServiceRepository {
   private repository: Repository<Service>;
@@ -18,13 +19,13 @@ export default class ServiceRepository implements IServiceRepository {
     return this.repository.save(newService);
   }
 
-  findOne(where: ISearchServiceDTO): Promise<Service> {
-    return this.repository.findOne({ ...where, relations: ['itens'] });
+  findOne(where: IQueryFind): Promise<Service> {
+    return this.repository.findOne({ where, relations: ['itens'] });
   }
 
   findAll(options: ISearchServiceDTO = { limit: 20, offset: 0 }): Promise<[Service[], number]> {
     const { where, offset: skip, limit: take } = options;
-    const { storeIds, clientIds, mechanicIds, bikeIds, creationDate, ...rest } = where;
+    const { storeIds, clientIds, mechanicIds, bikeIds, creationDate, isActive, ...rest } = where;
 
     const newWhere: { [name: string]: unknown } = { isActive: true };
 
@@ -50,6 +51,10 @@ export default class ServiceRepository implements IServiceRepository {
 
     if (creationDate) {
       newWhere.createdAt = MoreThanOrEqual(creationDate);
+    }
+
+    if (isActive) {
+      newWhere.isActive = isActive === 'true';
     }
 
     return this.repository.findAndCount({ skip, take, where: newWhere, relations: ['itens'] });

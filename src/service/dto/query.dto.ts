@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsOptional, IsString } from 'class-validator';
+import { IsBooleanString, IsDateString, IsOptional, IsString } from 'class-validator';
 import Pagination from '../../utils/typeorm/pagination';
 
 export default class IQueryDTO extends Pagination {
@@ -13,14 +13,6 @@ export default class IQueryDTO extends Pagination {
   @IsString()
   mechanicIds?: string;
 
-  serviceId?: string;
-
-  clientId?: string;
-
-  mechanicId?: string;
-
-  storeId?: string;
-
   @ApiProperty()
   @IsOptional()
   @IsString()
@@ -33,11 +25,11 @@ export default class IQueryDTO extends Pagination {
 
   @ApiProperty()
   @IsOptional()
-  @IsString()
+  @IsDateString()
   creationDate?: string;
 
   @ApiProperty()
   @IsOptional()
-  @IsBoolean()
-  isActive?: boolean;
+  @IsBooleanString()
+  isActive?: string | boolean;
 }
