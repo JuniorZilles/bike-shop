@@ -9,6 +9,7 @@ import {
   UpdateDateColumn
 } from 'typeorm';
 import Service from './service.entity';
+import numberTransformer from '../../utils/typeorm/number.transformer';
 
 @Entity('service_item')
 export default class ServiceItem {
@@ -25,7 +26,7 @@ export default class ServiceItem {
   qtd: number;
 
   @ApiProperty()
-  @Column('decimal')
+  @Column('decimal', { transformer: numberTransformer })
   unitPrice: number;
 
   @ApiProperty()
