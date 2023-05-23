@@ -19,7 +19,7 @@ export default class ServiceRepository implements IServiceRepository {
   }
 
   findOne(where: ISearchServiceDTO): Promise<Service> {
-    return this.repository.findOne(where);
+    return this.repository.findOne({ ...where, relations: ['itens'] });
   }
 
   findAll(options: ISearchServiceDTO = { limit: 20, offset: 0 }): Promise<[Service[], number]> {
@@ -52,7 +52,7 @@ export default class ServiceRepository implements IServiceRepository {
       newWhere.createdAt = MoreThanOrEqual(creationDate);
     }
 
-    return this.repository.findAndCount({ skip, take, where: newWhere, relations: ['batch'] });
+    return this.repository.findAndCount({ skip, take, where: newWhere, relations: ['itens'] });
   }
 
   async update(id: string, payload: UpdateServiceDto): Promise<number> {
