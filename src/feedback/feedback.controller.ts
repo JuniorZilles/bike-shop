@@ -7,7 +7,8 @@ import {
   Param,
   ClassSerializerInterceptor,
   UseInterceptors,
-  Query
+  Query,
+  ParseUUIDPipe
 } from '@nestjs/common';
 import { ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse } from '@nestjs/swagger';
 import FeedbackService from './feedback.service';
@@ -37,14 +38,14 @@ export default class FeedbackController {
   @Get(':id')
   @ApiOkResponse()
   @ApiNotFoundResponse()
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.feedbackService.findOne(id);
   }
 
   @Patch(':id')
   @ApiOkResponse()
   @ApiNotFoundResponse()
-  async update(@Param('id') id: string, @Body() updateFeedbackDto: UpdateFeedbackDto) {
+  async update(@Param('id', ParseUUIDPipe) id: string, @Body() updateFeedbackDto: UpdateFeedbackDto) {
     await this.feedbackService.update(id, updateFeedbackDto);
     return successResponse;
   }
