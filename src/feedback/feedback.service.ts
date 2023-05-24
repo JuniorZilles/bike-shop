@@ -16,7 +16,7 @@ export default class FeedbackService {
   async create(createFeedbackDto: CreateFeedbackDto) {
     const { serviceId } = createFeedbackDto;
 
-    const responseService = await this.serviceRepository.findOne({ where: { serviceId } });
+    const responseService = await this.serviceRepository.findOne({ serviceId });
     if (!responseService && !responseService?.isActive) {
       throw new NotFoundException(serviceNotFound);
     }
