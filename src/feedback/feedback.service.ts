@@ -32,7 +32,7 @@ export default class FeedbackService {
       const response = await this.serviceRepository.findAll({
         limit,
         offset,
-        where: { clientId, mechanicId, storeId }
+        where: { clientIds: clientId, mechanicIds: mechanicId, storeIds: storeId }
       });
       where.serviceIds = response[0].map((e) => e.serviceId);
     }

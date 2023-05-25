@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsOptional, IsString, IsUUID, Max, Min } from 'class-validator';
+import { IsNumberString, IsOptional, IsString, IsUUID } from 'class-validator';
 import { FindOperator } from 'typeorm';
 import Pagination from '../../utils/typeorm/pagination';
 
@@ -30,8 +30,6 @@ export default class IQueryDTO extends Pagination {
 
   @ApiProperty()
   @IsOptional()
-  @IsNumber()
-  @Max(5)
-  @Min(1)
+  @IsNumberString()
   rating?: number;
 }
