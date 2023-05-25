@@ -1,11 +1,11 @@
 <h1 align='center'>Bike Shop API</h1>
 
 
-  [![GitHub issues](https://img.shields.io/github/issues/JuniorZilles/bike-shop.svg)](https://GitHub.com/JuniorZilles/bike-shop/issues/)
-  [![GitHub pull-requests](https://img.shields.io/github/issues-pr/JuniorZilles/bike-shop.svg)](https://GitHub.com/JuniorZilles/bike-shop/pull/)
-  [![GitHub contributors](https://img.shields.io/github/contributors/JuniorZilles/bike-shop.svg)](https://GitHub.com/JuniorZilles/bike-shop/graphs/contributors/)
+  [![GitHub issues](https://img.shields.io/github/issues/JuniorZilles/bike-shop.svg)](https://github.com/JuniorZilles/bike-shop/issues/)
+  [![GitHub pull-requests](https://img.shields.io/github/issues-pr/JuniorZilles/bike-shop.svg)](https://github.com/JuniorZilles/bike-shop/pull/)
+  [![GitHub contributors](https://img.shields.io/github/contributors/JuniorZilles/bike-shop.svg)](https://github.com/JuniorZilles/bike-shop/graphs/contributors/)
   [![GitHub license](https://img.shields.io/github/license/JuniorZilles/bike-shop.svg)](https://github.com/JuniorZilles/bike-shop/blob/master/LICENSE)
-  [![GitHub release](https://img.shields.io/github/release/JuniorZilles/bike-shop.svg)](https://GitHub.com/JuniorZilles/bike-shop/releases/)
+  [![GitHub release](https://img.shields.io/github/release/JuniorZilles/bike-shop.svg)](https://github.com/JuniorZilles/bike-shop/releases/)
 
 <p align="center">
 <img src="http://img.shields.io/static/v1?label=Node&message=16.17.1&color=green&style=for-the-badge&logo=node.js"/>
