@@ -37,7 +37,7 @@ describe('Mechanic GET ALL (e2e)', () => {
       promises.push(request(app.getHttpServer()).post('/mechanic').send(validMechanic(resultStore.body?.storeId)));
     }
     const responses = await Promise.all(promises);
-    count = responses.map((element) => element.status === 200).length + 1;
+    count = responses.filter((element) => element.status === 201).length + 1;
     const result = await request(app.getHttpServer()).post('/mechanic').send(validMechanic(resultStore.body?.storeId));
     body = result.body;
   });

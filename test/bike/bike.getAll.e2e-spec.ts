@@ -41,7 +41,7 @@ describe('Bike GET ALL (e2e)', () => {
       promises.push(request(app.getHttpServer()).post('/bike').send(validBike(clientId)));
     }
     const responses = await Promise.all(promises);
-    count = responses.map((element) => element.status === 200).length + 1;
+    count = responses.filter((element) => element.status === 201).length + 1;
 
     body = resultBike.body;
   });

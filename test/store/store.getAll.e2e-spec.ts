@@ -35,7 +35,7 @@ describe('Store GET ALL (e2e)', () => {
       promises.push(request(app.getHttpServer()).post('/store').send(data));
     }
     const responses = await Promise.all(promises);
-    count = responses.map((element) => element.status === 200).length + 1;
+    count = responses.filter((element) => element.status === 201).length + 1;
     const result = await request(app.getHttpServer()).post('/store').send(storeData);
     body = result.body;
   });

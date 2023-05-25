@@ -57,7 +57,7 @@ describe('Service GET ALL (e2e)', () => {
       );
     }
     const responses = await Promise.all(promises);
-    count = responses.map((element) => element.status === 200).length + 1;
+    count = responses.filter((element) => element.status === 201).length + 1;
   });
 
   afterEach(async () => {
