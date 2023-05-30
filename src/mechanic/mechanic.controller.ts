@@ -32,6 +32,7 @@ import { Roles } from '../auth/role.decorator';
 import Role from '../auth/role.enum';
 
 @ApiTags('mechanic')
+@ApiBearerAuth()
 @UseInterceptors(ClassSerializerInterceptor)
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('mechanic')
@@ -47,7 +48,6 @@ export default class MechanicController {
   }
 
   @Get()
-  @ApiBearerAuth()
   @ApiOkResponse()
   @Roles(Role.Store)
   findAll(@Query() payload: IQueryDTO) {
@@ -55,7 +55,6 @@ export default class MechanicController {
   }
 
   @Get(':id')
-  @ApiBearerAuth()
   @ApiOkResponse()
   @Roles(Role.Store, Role.Client, Role.Mechanic)
   findOne(@Param('id', ParseUUIDPipe) id: string) {
@@ -63,7 +62,6 @@ export default class MechanicController {
   }
 
   @Patch(':id')
-  @ApiBearerAuth()
   @ApiOkResponse()
   @Roles(Role.Store, Role.Mechanic)
   @ApiNotFoundResponse()
@@ -73,7 +71,6 @@ export default class MechanicController {
   }
 
   @Delete(':id')
-  @ApiBearerAuth()
   @HttpCode(204)
   @ApiNotFoundResponse()
   @ApiNoContentResponse()
