@@ -8,6 +8,7 @@ import Client from './entities/client.entity';
 @Module({
   controllers: [ClientController],
   providers: [ClientRepository, ClientService],
-  imports: [TypeOrmModule.forFeature([Client])]
+  imports: [TypeOrmModule.forFeature([Client])],
+  exports: [ClientRepository]
 })
 export default class ClientModule {}

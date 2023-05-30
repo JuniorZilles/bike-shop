@@ -10,6 +10,7 @@ import MechanicRepository from './repository/implementation/MechanicRepository';
 @Module({
   controllers: [MechanicController],
   providers: [StoreRepository, MechanicRepository, MechanicService],
-  imports: [TypeOrmModule.forFeature([Store, Mechanic])]
+  imports: [TypeOrmModule.forFeature([Store, Mechanic])],
+  exports: [MechanicRepository]
 })
 export default class MechanicModule {}

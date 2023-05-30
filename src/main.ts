@@ -25,6 +25,7 @@ async function bootstrap() {
     .setTitle('Bike Shop API')
     .setDescription('API for Managing Services by a Bike Shop')
     .setVersion('1.0')
+    .addTag('auth')
     .addTag('bike')
     .addTag('client')
     .addTag('feedback')

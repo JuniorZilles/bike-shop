@@ -8,6 +8,7 @@ import Store from './entities/store.entity';
 @Module({
   controllers: [StoreController],
   providers: [StoreRepository, StoreService],
-  imports: [TypeOrmModule.forFeature([Store])]
+  imports: [TypeOrmModule.forFeature([Store])],
+  exports: [StoreRepository]
 })
 export default class StoreModule {}
