@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import AuthModule from './auth/auth.module';
-
 import StoreModule from './store/store.module';
 import ClientModule from './client/client.module';
 import ServiceModule from './service/service.module';
@@ -22,7 +21,6 @@ import MechanicModule from './mechanic/mechanic.module';
     MechanicModule,
     AuthModule
   ],
-  controllers: [],
-  providers: []
+  controllers: []
 })
 export default class AppModule {}

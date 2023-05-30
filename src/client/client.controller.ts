@@ -10,9 +10,11 @@ import {
   ClassSerializerInterceptor,
   Query,
   ParseUUIDPipe,
-  HttpCode
+  HttpCode,
+  UseGuards
 } from '@nestjs/common';
 import {
+  ApiBearerAuth,
   ApiConflictResponse,
   ApiCreatedResponse,
   ApiNoContentResponse,
@@ -25,6 +27,10 @@ import CreateClientDto from './dto/create-client.dto';
 import UpdateClientDto from './dto/update-client.dto';
 import successResponse from '../utils/response/success';
 import IQueryDTO from './dto/query.dto';
+import JwtAuthGuard from '../auth/jwt.guard';
+import { Roles } from '../auth/role.decorator';
+import Role from '../auth/role.enum';
+import RolesGuard from '../auth/role.guard';
 
 @ApiTags('client')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -40,12 +46,18 @@ export default class ClientController {
   }
 
   @Get()
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Client, Role.Store)
   @ApiOkResponse()
   findAll(@Query() payload: IQueryDTO) {
     return this.clientService.findAll(payload);
   }
 
   @Get(':id')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Client, Role.Store)
   @ApiOkResponse()
   @ApiNotFoundResponse()
   findOne(@Param('id', ParseUUIDPipe) id: string) {
@@ -53,6 +65,9 @@ export default class ClientController {
   }
 
   @Patch(':id')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Client)
   @ApiOkResponse()
   @ApiNotFoundResponse()
   async update(@Param('id', ParseUUIDPipe) id: string, @Body() updateClientDto: UpdateClientDto) {
@@ -61,6 +76,9 @@ export default class ClientController {
   }
 
   @Delete(':id')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Client)
   @HttpCode(204)
   @ApiNotFoundResponse()
   @ApiNoContentResponse()
