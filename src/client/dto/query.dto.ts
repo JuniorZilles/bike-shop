@@ -3,32 +3,34 @@ import { IsBoolean, IsDateString, IsEmail, IsOptional, IsPhoneNumber, IsString }
 import Pagination from '../../utils/typeorm/pagination';
 
 export default class IQueryDTO extends Pagination {
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
   clientId?: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   @IsEmail()
   email?: string;
 
-  @ApiProperty()
+  password?: string;
+
+  @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
   name?: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   @IsDateString()
   birthday?: Date;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   @IsPhoneNumber()
   phone?: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   @IsBoolean()
   isActive?: boolean;

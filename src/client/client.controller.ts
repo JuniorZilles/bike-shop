@@ -17,7 +17,8 @@ import {
   ApiCreatedResponse,
   ApiNoContentResponse,
   ApiNotFoundResponse,
-  ApiOkResponse
+  ApiOkResponse,
+  ApiTags
 } from '@nestjs/swagger';
 import ClientService from './client.service';
 import CreateClientDto from './dto/create-client.dto';
@@ -25,6 +26,7 @@ import UpdateClientDto from './dto/update-client.dto';
 import successResponse from '../utils/response/success';
 import IQueryDTO from './dto/query.dto';
 
+@ApiTags('client')
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('client')
 export default class ClientController {

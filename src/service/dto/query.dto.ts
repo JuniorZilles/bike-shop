@@ -3,7 +3,7 @@ import { IsBooleanString, IsDateString, IsOptional, IsString } from 'class-valid
 import Pagination from '../../utils/typeorm/pagination';
 
 export default class IQueryDTO extends Pagination {
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
   storeIds?: string;
@@ -16,27 +16,27 @@ export default class IQueryDTO extends Pagination {
 
   storeId?: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
   mechanicIds?: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
   clientIds?: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
   bikeIds?: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   @IsDateString()
   creationDate?: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   @IsBooleanString()
   isActive?: string | boolean;

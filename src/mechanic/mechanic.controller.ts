@@ -12,13 +12,14 @@ import {
   ParseUUIDPipe,
   HttpCode
 } from '@nestjs/common';
-import { ApiCreatedResponse, ApiNoContentResponse, ApiNotFoundResponse, ApiOkResponse } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiNoContentResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import MechanicService from './mechanic.service';
 import CreateMechanicDto from './dto/create-mechanic.dto';
 import UpdateMechanicDto from './dto/update-mechanic.dto';
 import successResponse from '../utils/response/success';
 import IQueryDTO from './dto/query.dto';
 
+@ApiTags('mechanic')
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('mechanic')
 export default class MechanicController {

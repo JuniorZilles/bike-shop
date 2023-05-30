@@ -17,7 +17,8 @@ import {
   ApiCreatedResponse,
   ApiNoContentResponse,
   ApiNotFoundResponse,
-  ApiOkResponse
+  ApiOkResponse,
+  ApiTags
 } from '@nestjs/swagger';
 import StoreService from './store.service';
 import CreateStoreDto from './dto/create-store.dto';
@@ -25,6 +26,7 @@ import UpdateStoreDto from './dto/update-store.dto';
 import IQueryDTO from './dto/query.dto';
 import successResponse from '../utils/response/success';
 
+@ApiTags('store')
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('store')
 export default class StoreController {

@@ -12,7 +12,7 @@ import {
   Query,
   HttpCode
 } from '@nestjs/common';
-import { ApiCreatedResponse, ApiNoContentResponse, ApiNotFoundResponse, ApiOkResponse } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiNoContentResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import BikeService from './bike.service';
 import CreateBikeDto from './dto/create-bike.dto';
 import UpdateBikeDto from './dto/update-bike.dto';
@@ -20,6 +20,7 @@ import IQueryDTO from './dto/query.dto';
 import successResponse from '../utils/response/success';
 
 @UseInterceptors(ClassSerializerInterceptor)
+@ApiTags('bike')
 @Controller('bike')
 export default class BikeController {
   constructor(private readonly bikeService: BikeService) {}

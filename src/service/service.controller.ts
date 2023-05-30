@@ -12,7 +12,7 @@ import {
   ParseUUIDPipe,
   Query
 } from '@nestjs/common';
-import { ApiCreatedResponse, ApiNoContentResponse, ApiNotFoundResponse, ApiOkResponse } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiNoContentResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import ServiceService from './service.service';
 import CreateServiceDto from './dto/create-service.dto';
 import CreateServiceItensDto from './dto/create-service-itens.dto';
@@ -22,6 +22,7 @@ import UpdateServiceItensDto from './dto/update-service-itens.dto';
 import IQueryDTO from './dto/query.dto';
 import successResponse from '../utils/response/success';
 
+@ApiTags('service')
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('service')
 export default class ServiceController {

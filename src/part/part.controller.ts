@@ -12,7 +12,7 @@ import {
   ClassSerializerInterceptor,
   Query
 } from '@nestjs/common';
-import { ApiCreatedResponse, ApiNoContentResponse, ApiNotFoundResponse, ApiOkResponse } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiNoContentResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import PartService from './part.service';
 import CreatePartDto from './dto/create-part.dto';
 import UpdatePartDto from './dto/update-part.dto';
@@ -22,6 +22,7 @@ import CreateBatchDto from './dto/create-batch.dto';
 import BatchService from './batch.service';
 import successResponse from '../utils/response/success';
 
+@ApiTags('part')
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('part')
 export default class PartController {

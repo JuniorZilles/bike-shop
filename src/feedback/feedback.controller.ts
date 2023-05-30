@@ -10,13 +10,14 @@ import {
   Query,
   ParseUUIDPipe
 } from '@nestjs/common';
-import { ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import FeedbackService from './feedback.service';
 import CreateFeedbackDto from './dto/create-feedback.dto';
 import UpdateFeedbackDto from './dto/update-feedback.dto';
 import successResponse from '../utils/response/success';
 import IQueryDTO from './dto/query.dto';
 
+@ApiTags('feedback')
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('feedback')
 export default class FeedbackController {

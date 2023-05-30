@@ -4,19 +4,19 @@ import { FindOperator } from 'typeorm';
 import Pagination from '../../utils/typeorm/pagination';
 
 export default class IQueryDTO extends Pagination {
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
   @IsUUID()
   storeId?: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
   @IsUUID()
   mechanicId?: string;
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   @IsString()
   @IsUUID()
@@ -28,7 +28,7 @@ export default class IQueryDTO extends Pagination {
 
   serviceIds?: string[];
 
-  @ApiProperty()
+  @ApiProperty({ required: false })
   @IsOptional()
   @IsNumberString()
   rating?: number;
