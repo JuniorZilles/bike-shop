@@ -29,7 +29,26 @@ pipeline{
 
         stage('Build Image'){
             steps {
+                sh 'echo ${env.BUILD_ID}'
                 sh 'docker build -t juniorzilles/bike-shop:${env.BUILD_ID} .'
+            }
+        }
+
+        stage('Push image to Hub'){
+            steps{
+                script{
+                   withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
+                    sh 'docker login -u juniorzilles -p ${dockerhubpwd}'
+                   }
+                   sh 'docker push juniorzilles/bike-shop'
+                }
+            }
+        }
+        stage('Deploy to k8s'){
+            steps{
+                script{
+                    kubernetesDeploy (configs: 'deployment.yaml',kubeconfigId: 'k8sconfigpwd')
+                }
             }
         }
     }
