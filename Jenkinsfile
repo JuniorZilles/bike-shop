@@ -29,8 +29,7 @@ pipeline{
 
         stage('Build Image'){
             steps {
-                sh 'echo ${env.BUILD_ID}'
-                sh 'docker build -t juniorzilles/bike-shop:${env.BUILD_ID} .'
+                sh "docker build -t juniorzilles/bike-shop:${env.BUILD_ID} ."
             }
         }
 
@@ -38,9 +37,9 @@ pipeline{
             steps{
                 script{
                    withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
-                    sh 'docker login -u juniorzilles -p ${dockerhubpwd}'
+                    sh "docker login -u juniorzilles -p ${dockerhubpwd}"
                    }
-                   sh 'docker push juniorzilles/bike-shop'
+                   sh "docker push juniorzilles/bike-shop:${env.BUILD_ID}"
                 }
             }
         }
