@@ -21,9 +21,15 @@ pipeline{
             }
         }
         
-        stage('Test'){
+        // stage('Test'){
+        //     steps {
+        //         sh 'npm run test'
+        //     }
+        // }
+
+        stage('Build Image'){
             steps {
-                sh 'npm run test'
+                sh 'docker build -t juniorzilles/bike-shop:${env.BUILD_ID} .'
             }
         }
     }
